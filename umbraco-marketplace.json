@@ -3,8 +3,33 @@
   "Title": "Messenger",
   "Description": "Internal threaded conversations for Umbraco backoffice users.",
   "Category": "Editor Tools",
-  "LicenseTypes": ["Free"],
+  "LicenseTypes": [
+    "Free"
+  ],
   "PackageType": "Package",
-  "Tags": ["messenger", "messages", "editors", "collaboration"],
-  "VersionDependencyMode": "SemVer"
+  "Tags": [
+    "messenger",
+    "messages",
+    "editors",
+    "collaboration"
+  ],
+  "VersionDependencyMode": "SemVer",
+  "Screenshots": [
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/skttl/umbraco-messenger/main/docs/images/messenger-thread.jpg",
+      "Caption": "Threaded conversations with online presence, replies and notification controls in the native Umbraco sidebar."
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/skttl/umbraco-messenger/main/docs/images/messenger-list.jpg",
+      "Caption": "Search conversations and switch between active, unread and former conversations."
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/skttl/umbraco-messenger/main/docs/images/messenger-compose.jpg",
+      "Caption": "Start a conversation with individual users or expand a user group into recipients."
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/skttl/umbraco-messenger/main/docs/images/messenger-participants.jpg",
+      "Caption": "Add participants in a second sidebar and choose whether to share accessible history."
+    }
+  ]
 }
