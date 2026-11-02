@@ -63,8 +63,8 @@
 
 **Files:** version-specific config/OpenAPI registration/auth differences, `v17/main`, verification report.
 
-- [ ] Commit reviewed implementation on `main` at 18.0.0.
-- [ ] Create `v17/main`, adapt API registration, auth and dependencies to 17.0.0, then build/test/pack.
-- [ ] Return to `main` and verify working tree state.
-- [ ] Whole repository security/quality review and targeted fixes; update both branches for shared fixes.
-- [ ] Place complete repository at `C:\Workspaces\Packages\umbraco-messenger`, verify from that location and report actual remaining limits.
+- [x] Commit reviewed implementation on `main` at 18.0.0.
+- [x] Create `v17/main`, adapt API registration, auth and dependencies to 17.0.0, then build/test/pack.
+- [x] Return to `main` and verify working tree state.
+- [x] Whole repository security/quality review and targeted fixes; update both branches for shared fixes.
+- [x] Place complete repository at `C:\Workspaces\Packages\umbraco-messenger`, verify from that location and report actual remaining limits.
