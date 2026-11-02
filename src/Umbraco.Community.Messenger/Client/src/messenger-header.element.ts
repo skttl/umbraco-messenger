@@ -22,7 +22,7 @@ export class MessengerHeaderElement extends UmbLitElement {
   #lastThread?:string;
   #lastMessage?:string;
   #directoryTimer?:ReturnType<typeof setTimeout>;
-  constructor(){super();this.consumeContext(MESSENGER_CONTEXT,context=>{this.#context=context;this.observe(context?.state,data=>{const loggedOut=data&&!data.authorized&&this._data?.authorized;this._data=data;if(loggedOut){this.#closeFlow();this.#close();this._subject="";this._body="";this._recipients={};this._recipientQuery="";this._search="";this._filter="active";}},'messenger-state');});}
+  constructor(){super();this.consumeContext(MESSENGER_CONTEXT,context=>{this.#context=context;this.observe(context?.state,data=>{const loggedOut=data&&!data.authorized&&this._data?.authorized;this._data=data;if(loggedOut){this.#closeFlow();this.#close(false);this._subject="";this._body="";this._recipients={};this._recipientQuery="";this._search="";this._filter="active";}},'messenger-state');});}
   #t(key:keyof typeof en.messenger){return this.localize.term(`messenger_${key}`);}
   get #panel(){return this.shadowRoot?.querySelector<HTMLDialogElement>('#panel');}
   get #dialog(){return this.shadowRoot?.querySelector<HTMLDialogElement>('#flow');}
@@ -35,15 +35,16 @@ export class MessengerHeaderElement extends UmbLitElement {
   override disconnectedCallback(){this.#context?.setOpen(false);this.#listeners?.abort();this.#observer?.disconnect();clearTimeout(this.#directoryTimer);super.disconnectedCallback();}
   #escape=(event:KeyboardEvent)=>{if(event.key==='Escape'&&this._data?.open&&!this.#dialog?.open){event.preventDefault();this.#close();}};
   #toggle(){const panel=this.#panel;if(!panel)return;if(this._data?.open){this.#close();return;}this.#context?.setOpen(true);if('showPopover' in HTMLElement.prototype)panel.showPopover();else panel.show();}
-  #close(){const panel=this.#panel;if(panel){if('hidePopover' in HTMLElement.prototype&&panel.matches(':popover-open'))panel.hidePopover();else if(panel.open)panel.close();}this.#context?.setOpen(false);}
+  #close(restoreFocus=true){const panel=this.#panel;if(panel){if('hidePopover' in HTMLElement.prototype&&panel.matches(':popover-open'))panel.hidePopover();else if(panel.open)panel.close();}this.#context?.setOpen(false);const launcher=this.shadowRoot?.querySelector<HTMLElement>('#launcher');if(restoreFocus&&launcher?.isConnected)launcher.focus();}
   #onToggle=(event:Event)=>{const open=(event as ToggleEvent).newState==='open';if(this._data?.open!==open)this.#context?.setOpen(open);};
   async #openFlow(flow:'new'|'invite'|'leave'){
+    if(this._data?.busy)return;
     this._flow=flow;this._subject='';this._body='';this._recipientQuery='';this._recipients={};this._share=false;this.#context?.clearError();this.#context?.stopTyping();
     await this.updateComplete;this.#dialog?.showModal();if(flow!=='leave')void this.#context?.directory();
   }
   #closeFlow(){this.#dialog?.close();this._flow=undefined;this.#readVisible();}
   async #submit(event:Event){
-    event.preventDefault();if(!this.#context)return;
+    event.preventDefault();if(!this.#context||this._data?.busy)return;
     const userIds=Object.keys(this._recipients).filter(x=>x.startsWith('u:')).map(x=>x.slice(2));
     const groupIds=Object.keys(this._recipients).filter(x=>x.startsWith('g:')).map(x=>x.slice(2));
     let ok=false;
@@ -64,7 +65,7 @@ export class MessengerHeaderElement extends UmbLitElement {
         ${this.#icon()}${count?html`<span class="badge" aria-hidden="true">${count>99?'99+':count}</span>`:nothing}
       </uui-button>
       <dialog id="panel" popover="manual" aria-labelledby="panel-title" @toggle=${this.#onToggle}>
-        <header class="panel-head"><div class="brand">${this.#icon()}<h2 id="panel-title">${this.#t('title')}</h2></div><uui-button compact label=${this.#t('close')} @click=${this.#close}><umb-icon name="icon-delete"></umb-icon></uui-button></header>
+        <header class="panel-head"><div class="brand">${this.#icon()}<h2 id="panel-title">${this.#t('title')}</h2></div><uui-button compact label=${this.#t('close')} @click=${()=>this.#close()}><umb-icon name="icon-delete"></umb-icon></uui-button></header>
         ${data?.live!=='connected'?html`<div class="live" role="status">${this.#t(data?.live==='connecting'?'connecting':data?.live==='reconnecting'?'reconnecting':'liveOffline')}</div>`:nothing}
         ${!this._flow?this.#error():nothing}
         ${data?.selected?this.#thread():this.#list()}
@@ -102,18 +103,19 @@ export class MessengerHeaderElement extends UmbLitElement {
     const flow=this._flow,dir=this._data?.directory,selection=Object.keys(this._recipients).length;
     const activeIds=new Set(this._data?.detail?.participants.filter(x=>x.isActive).map(x=>x.id));
     const valid=selection>0&&(flow!=='new'||(this._subject.trim().length>0&&this._subject.length<=120&&this._body.trim().length>0&&this._body.length<=4000));
-    return html`<dialog id="flow" aria-labelledby="flow-title" @close=${()=>{this._flow=undefined;}}><form @submit=${this.#submit}><header><h2 id="flow-title">${this.#t(flow==='leave'?'leaveTitle':flow==='invite'?'add':'new')}</h2></header>
+    return html`<dialog id="flow" aria-labelledby="flow-title" @cancel=${(event:Event)=>{if(this._data?.busy)event.preventDefault();}} @close=${()=>{this._flow=undefined;}}><form @submit=${this.#submit}><header><h2 id="flow-title">${this.#t(flow==='leave'?'leaveTitle':flow==='invite'?'add':'new')}</h2></header>
       ${flow==='leave'?html`<p>${this.#t('leaveHint')}</p>`:html`
-        ${flow==='new'?html`<label>${this.#t('subject')}<uui-input label=${this.#t('subject')} maxlength="120" .value=${this._subject} @input=${(e:Event)=>{this._subject=(e.target as HTMLInputElement).value;}} autofocus></uui-input><small>${this.#t('subjectLimit')}</small></label>`:nothing}
-        <label>${this.#t('recipients')}<uui-input type="search" maxlength="100" label=${this.#t('findPeople')} placeholder=${this.#t('findPeople')} .value=${this._recipientQuery} @input=${this.#searchRecipients}></uui-input></label>
+        ${flow==='new'?html`<label>${this.#t('subject')}<uui-input label=${this.#t('subject')} maxlength="120" ?disabled=${this._data?.busy} .value=${this._subject} @input=${(e:Event)=>{this._subject=(e.target as HTMLInputElement).value;}} autofocus></uui-input><small>${this.#t('subjectLimit')}</small></label>`:nothing}
+        <label>${this.#t('recipients')}<uui-input type="search" maxlength="100" label=${this.#t('findPeople')} placeholder=${this.#t('findPeople')} ?disabled=${this._data?.busy} .value=${this._recipientQuery} @input=${this.#searchRecipients}></uui-input></label>
         <p class="hint">${this.#t('groupHint')}</p>
         <div class="recipient-list" aria-busy=${this._data?.directoryLoading?'true':'false'}>${this._data?.directoryLoading?html`<uui-loader></uui-loader>`:nothing}
-          ${(['users','groups'] as const).map(kind=>html`<fieldset><legend>${this.#t(kind==='users'?'people':'groups')}</legend>${(dir?.[kind]??[]).filter(x=>flow!=='invite'||kind==='groups'||!activeIds.has(x.id)).map(x=>{const key=`${kind==='users'?'u':'g'}:${x.id}`;return html`<label class="recipient"><input type="checkbox" .checked=${!!this._recipients[key]} @change=${(e:Event)=>this.#choose(key,x.name,(e.target as HTMLInputElement).checked)}><span>${x.name}</span></label>`;})}</fieldset>`)}
+          ${(['users','groups'] as const).map(kind=>html`<fieldset><legend>${this.#t(kind==='users'?'people':'groups')}</legend>${(dir?.[kind]??[]).filter(x=>flow!=='invite'||kind==='groups'||!activeIds.has(x.id)).map(x=>{const key=`${kind==='users'?'u':'g'}:${x.id}`;return html`<label class="recipient"><input type="checkbox" ?disabled=${this._data?.busy} .checked=${!!this._recipients[key]} @change=${(e:Event)=>this.#choose(key,x.name,(e.target as HTMLInputElement).checked)}><span>${x.name}</span></label>`;})}</fieldset>`)}
           ${!this._data?.directoryLoading&&!dir?.users.length&&!dir?.groups.length?html`<p>${this.#t('noRecipients')}</p>`:nothing}
         </div><p class="hint">${selection?html`${this.#t('selected')}: ${Object.values(this._recipients).join(', ')}`:this.#t('noneSelected')}</p>
-        ${flow==='invite'?html`<fieldset><legend>${this.#t('history')}</legend><label class="recipient"><input type="radio" name="history" .checked=${!this._share} @change=${()=>{this._share=false;}}>${this.#t('future')}</label><label class="recipient"><input type="radio" name="history" .checked=${this._share} @change=${()=>{this._share=true;}}>${this.#t('share')}</label><p class="hint">${this.#t('shareHint')}</p></fieldset>`:html`<label>${this.#t('message')}<uui-textarea label=${this.#t('message')} maxlength="4000" .value=${this._body} @input=${(e:Event)=>{this._body=(e.target as HTMLTextAreaElement).value;}}></uui-textarea><small>${this.#t('bodyLimit')}</small></label>`}
+        ${flow==='invite'?html`<fieldset><legend>${this.#t('history')}</legend><label class="recipient"><input type="radio" name="history" ?disabled=${this._data?.busy} .checked=${!this._share} @change=${()=>{this._share=false;}}>${this.#t('future')}</label><label class="recipient"><input type="radio" name="history" ?disabled=${this._data?.busy} .checked=${this._share} @change=${()=>{this._share=true;}}>${this.#t('share')}</label><p class="hint">${this.#t('shareHint')}</p></fieldset>`:html`<label>${this.#t('message')}<uui-textarea label=${this.#t('message')} maxlength="4000" ?disabled=${this._data?.busy} .value=${this._body} @input=${(e:Event)=>{this._body=(e.target as HTMLTextAreaElement).value;}}></uui-textarea><small>${this.#t('bodyLimit')}</small></label>`}
       `}
       ${flow?this.#error():nothing}
+      ${this._data?.busy?html`<p role="status">${this.#t("saving")}</p>`:nothing}
       <footer><uui-button look="secondary" label=${this.#t('cancel')} ?disabled=${this._data?.busy} @click=${this.#closeFlow} autofocus=${flow==='leave'?true:nothing}>${this.#t('cancel')}</uui-button><uui-button type="submit" look="primary" color=${flow==='leave'?'danger':'positive'} label=${this.#t(flow==='leave'?'leave':flow==='invite'?'invite':'send')} ?disabled=${this._data?.busy||(flow!=='leave'&&!valid)}>${this.#t(flow==='leave'?'leave':flow==='invite'?'invite':'send')}</uui-button></footer>
     </form></dialog>`;
   }

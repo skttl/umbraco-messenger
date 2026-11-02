@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
-const mocks = vi.hoisted(() => ({api:{getMessengerConversations:vi.fn(),getMessengerConversation:vi.fn(),getMessengerMessages:vi.fn(),postMessengerMessage:vi.fn(),putMessengerRead:vi.fn()},authConsumer:undefined as undefined|((auth:unknown)=>void), hub:{start:vi.fn(),stop:vi.fn(),invoke:vi.fn(),on:vi.fn(),onclose:vi.fn(),onreconnecting:vi.fn(),onreconnected:vi.fn()},hubOptions:undefined as any}));
+const mocks = vi.hoisted(() => ({api:{getMessengerConversations:vi.fn(),getMessengerConversation:vi.fn(),getMessengerMessages:vi.fn(),postMessengerMessage:vi.fn(),postMessengerConversation:vi.fn(),putMessengerRead:vi.fn()},authConsumer:undefined as undefined|((auth:unknown)=>void), hub:{start:vi.fn(),stop:vi.fn(),invoke:vi.fn(),on:vi.fn(),onclose:vi.fn(),onreconnecting:vi.fn(),onreconnected:vi.fn()},hubOptions:undefined as any}));
 vi.mock('@umbraco-cms/backoffice/class-api',()=>({UmbContextBase:class { consumeContext(_t:unknown,cb:(v:unknown)=>void){mocks.authConsumer=cb;} observe(source:{value:unknown},cb:(v:unknown)=>void){cb(source.value);} hostConnected(){} hostDisconnected(){} destroy(){} }}));
 vi.mock('@umbraco-cms/backoffice/context-api',()=>({UmbContextToken:class {}}));
 vi.mock('@umbraco-cms/backoffice/observable-api',()=>({UmbObjectState:class {constructor(public value:unknown){} getValue(){return this.value;} setValue(v:unknown){this.value=v;} asObservable(){return this;}}}));
@@ -54,5 +54,26 @@ describe('live lifecycle',()=>{
    const getLatestToken=vi.fn().mockResolvedValueOnce('first').mockResolvedValueOnce('second');
    mocks.authConsumer!({isAuthorized:{value:true},getOpenApiConfiguration:()=>({base:'http://localhost'}),getLatestToken,configureClient(){}});
    expect(await mocks.hubOptions.accessTokenFactory()).toBe('first');expect(await mocks.hubOptions.accessTokenFactory()).toBe('second');expect(mocks.hubOptions.withCredentials).toBe(true);
+ });
+});
+
+describe('review regressions',()=>{
+ it('keeps all history reachable when more than a page arrives during disconnect',async()=>{
+   const messages=(from:number,to:number)=>Array.from({length:to-from+1},(_,index)=>message(from+index));
+   mocks.api.getMessengerMessages.mockResolvedValueOnce({data:{items:messages(1,50),nextBeforeSequence:null}});
+   await context.select('a');expect(context.snapshot.messages).toHaveLength(50);
+   mocks.api.getMessengerMessages.mockResolvedValueOnce({data:{items:messages(61,110),nextBeforeSequence:61}});
+   await context.loadDetail();expect(context.snapshot.nextBefore).toBe(61);
+   mocks.api.getMessengerMessages.mockResolvedValueOnce({data:{items:messages(11,60),nextBeforeSequence:11}});
+   await context.older();
+   mocks.api.getMessengerMessages.mockResolvedValueOnce({data:{items:messages(1,10),nextBeforeSequence:null}});
+   await context.older();expect(context.snapshot.messages.map(x=>x.sequence)).toEqual(messages(1,110).map(x=>x.sequence));
+   expect(context.snapshot.nextBefore).toBeNull();
+ });
+ it('does not select a created conversation over newer navigation',async()=>{
+   const created=deferred<any>();mocks.api.postMessengerConversation.mockReturnValue(created.promise);
+   const pending=context.create({subject:'First draft',body:'First message',userIds:['anna'],groupIds:[]});
+   await context.select('chosen');created.resolve({data:thread('created')});expect(await pending).toBe(true);
+   expect(context.snapshot.selected).toBe('chosen');expect(context.snapshot.detail?.id).toBe('chosen');
  });
 });

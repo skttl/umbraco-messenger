@@ -25,7 +25,7 @@ export class MessengerContext extends UmbContextBase {
   #auth?:typeof UMB_AUTH_CONTEXT.TYPE;
   #connection?:HubConnection;
   #authorized=false;
-  #epoch=0; #listRequest=0; #detailRequest=0; #directoryRequest=0;
+  #epoch=0; #navigation=0; #listRequest=0; #detailRequest=0; #directoryRequest=0;
   #readAttempted=new Map<string,number>();
   #heartbeat?:ReturnType<typeof setInterval>;
   #expiry?:ReturnType<typeof setInterval>;
@@ -109,14 +109,13 @@ export class MessengerContext extends UmbContextBase {
     }catch{if(this.#valid(epoch)&&request===this.#listRequest)this.#set({loading:false,error:'loadError'});}
   }
   setOpen(open:boolean){this.#set({open});if(!open)this.stopTyping();else{void this.refresh();if(this.snapshot.selected)void this.loadDetail();void this.#beat();}}
-  async select(id?:string){this.stopTyping();++this.#detailRequest;this.#set({selected:id,detail:undefined,messages:[],nextBefore:null,online:{},typing:{},error:undefined,detailLoading:!!id});if(id)await this.loadDetail();}
+  async select(id?:string){++this.#navigation;this.stopTyping();++this.#detailRequest;this.#set({selected:id,detail:undefined,messages:[],nextBefore:null,online:{},typing:{},error:undefined,detailLoading:!!id});if(id)await this.loadDetail();}
   async loadDetail(){
     const id=this.snapshot.selected;if(!id||!this.#authorized)return;
     const epoch=this.#epoch,request=++this.#detailRequest;
     try{const [detail,page]=await Promise.all([api.getMessengerConversation({path:{id},throwOnError:true}),api.getMessengerMessages({path:{id},query:{take:50},throwOnError:true})]);
       if(!this.#valid(epoch)||request!==this.#detailRequest||id!==this.snapshot.selected)return;
-      const merged=new Map([...this.snapshot.messages,...page.data.items].map(x=>[x.id,x]));
-      this.#set({detail:detail.data,messages:[...merged.values()].sort((a,b)=>a.sequence-b.sequence),nextBefore:this.snapshot.messages.length?this.snapshot.nextBefore:page.data.nextBeforeSequence,detailLoading:false,...(!detail.data.isActive?{typing:{},online:{}}:{})});
+      this.#set({detail:detail.data,messages:page.data.items,nextBefore:page.data.nextBeforeSequence,detailLoading:false,...(!detail.data.isActive?{typing:{},online:{}}:{})});
       void this.#beat();
     }catch{if(this.#valid(epoch)&&request===this.#detailRequest)this.#set({detailLoading:false,error:'loadError'});}
   }
@@ -159,8 +158,8 @@ export class MessengerContext extends UmbContextBase {
   async leave(){const detail=this.snapshot.detail;if(!detail?.isActive)return false;this.stopTyping();return this.#mutate(async()=>{await api.deleteMessengerMembership({path:{id:detail.id},throwOnError:true});return detail.id;});}
   async #mutate(action:()=>Promise<string>){
     if(!this.#authorized||this.snapshot.busy)return false;
-    const epoch=this.#epoch;this.#set({busy:true,error:undefined});
-    try{const id=await action();if(!this.#valid(epoch))return false;await this.refresh();if(!this.#valid(epoch))return false;if(this.snapshot.selected===id)await this.loadDetail();else await this.select(id);return true;}
+    const epoch=this.#epoch,navigation=this.#navigation;this.#set({busy:true,error:undefined});
+    try{const id=await action();if(!this.#valid(epoch))return false;await this.refresh();if(!this.#valid(epoch))return false;if(this.#navigation===navigation){if(this.snapshot.selected===id)await this.loadDetail();else await this.select(id);}return true;}
     catch{if(this.#valid(epoch))this.#set({error:'actionError'});return false;}finally{if(this.#valid(epoch))this.#set({busy:false});}
   }
   clearError(){this.#readAttempted.clear();this.#set({error:undefined});}
