@@ -38,6 +38,10 @@ describe('Messenger keyboard and pending flows',()=>{
  it('clears viewing state when the native sidebar is removed',()=>{
    element.remove();expect(mocked.context.setOpen).toHaveBeenLastCalledWith(false);
  });
+ it('localizes a former participant whose account name is unavailable',async()=>{
+   publish({conversations:[{id:'thread',subject:'History',isActive:true,unreadCount:0,participants:[{id:'former',name:'',isActive:true}]}]});await update();
+   expect(element.shadowRoot!.querySelector('.conversation .meta')?.textContent).toContain('messenger_formerUser');
+ });
  it('locks native cancellation and reopening while submission is pending, preserving the submitted draft',async()=>{
    await button('new').click();await update();edit('subject','First subject');edit('message','First message');
    const checkbox=element.shadowRoot!.querySelector<HTMLInputElement>('#flow input[type="checkbox"]')!;checkbox.checked=true;checkbox.dispatchEvent(new Event('change',{bubbles:true}));await update();
