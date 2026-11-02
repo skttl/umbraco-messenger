@@ -1,8 +1,8 @@
 export const en = {messenger:{
- formerUser:'Former user',title:'Messenger',saving:'Saving…',open:'Open Messenger',unread:'unread conversations',close:'Close',back:'Back to conversations',new:'New conversation',search:'Search subjects',active:'Active',unreadFilter:'Unread',former:'Former',empty:'No conversations here.',emptyHint:'Start a conversation with a colleague.',loading:'Loading…',retry:'Retry',send:'Send message',reply:'Write a reply',subject:'Subject',message:'Message',recipients:'Recipients',people:'People',groups:'Groups',findPeople:'Search people and groups',groupHint:'Groups expand to their current enabled users. Duplicate recipients are removed.',selected:'Selected recipients',noneSelected:'Select at least one recipient.',add:'Add participants',cancel:'Cancel',invite:'Add participants',history:'Access to history',future:'Only new messages',share:'Share my accessible history',shareHint:'Shares only messages that you can already read.',mute:'Mute notifications',unmute:'Unmute notifications',muted:'Notifications muted',leave:'Leave conversation',leaveTitle:'Leave this conversation?',leaveHint:'You keep your accessible history. You will stop receiving new replies and cannot send messages.',left:'You left this conversation. Your accessible history is read-only.',earlier:'Load earlier messages',participants:'Participants',online:'Online',offline:'Offline',typing:'is typing…',sent:'Sent',connecting:'Connecting live updates…',reconnecting:'Reconnecting live updates…',liveOffline:'Live updates are unavailable. Retrying…',loadError:'Conversations could not be loaded.',sendError:'Your message was not sent. Your draft is saved; try again.',readError:'Read status could not be saved. Try again.',directoryError:'Recipients could not be loaded. Try again.',actionError:'The change could not be saved. Check your access and try again.',validation:'Enter a subject, a message and at least one recipient.',noRecipients:'No recipients found.',subjectLimit:'Subject: up to 120 characters.',bodyLimit:'Message: up to 4,000 characters.',unreadMessages:'unread messages',loadThread:'Open conversation',newer:'New messages',person:'Person',group:'Group'
+ formerUser:'Former user',title:'Messenger',saving:'Saving…',open:'Open Messenger',unread:'unread conversations',close:'Close',back:'Back to conversations',new:'New conversation',search:'Search subjects',active:'Active',unreadFilter:'Unread',former:'Former',empty:'No conversations here.',emptyHint:'Start a conversation with a colleague.',loading:'Loading…',retry:'Retry',send:'Send message',reply:'Write a reply',subject:'Subject',message:'Message',recipients:'Recipients',people:'People',groups:'Groups',findPeople:'Search people and groups',groupHint:'Groups expand to their current enabled users. Duplicate recipients are removed.',selected:'Selected recipients',noneSelected:'Select at least one recipient.',add:'Add participants',cancel:'Cancel',invite:'Add participants',history:'Access to history',future:'Only new messages',share:'Share my accessible history',shareHint:'Shares only messages that you can already read.',mute:'Mute notifications',unmute:'Unmute notifications',muted:'Notifications muted',leave:'Leave conversation',leaveTitle:'Leave this conversation?',leaveHint:'You keep your accessible history. You will stop receiving new replies and cannot send messages.',left:'You left this conversation. Your accessible history is read-only.',earlier:'Load earlier messages',participants:'Participants',online:'Online',offline:'Offline',typing:'is typing…',sent:'Sent',connecting:'Connecting live updates…',reconnecting:'Reconnecting live updates…',liveOffline:'Live updates are unavailable. Retrying…',loadError:'Conversations could not be loaded.',sendError:'Your message was not sent. Your draft is saved; try again.',readError:'Read status could not be saved. Try again.',directoryError:'Recipients could not be loaded. Try again.',actionError:'The change could not be saved. Check your access and try again.',validation:'Enter a subject, a message and at least one recipient.',noRecipients:'No recipients found.',subjectLimit:'Subject: up to 120 characters.',unreadMessages:'unread messages',loadThread:'Open conversation',newer:'New messages',person:'Person',group:'Group'
 }};
 export const da:typeof en = {messenger:{
- formerUser:'Tidligere bruger',title:'Messenger',saving:'Gemmer…',open:'Åbn Messenger',unread:'ulæste samtaler',close:'Luk',back:'Tilbage til samtaler',new:'Ny samtale',search:'Søg i emner',active:'Aktive',unreadFilter:'Ulæste',former:'Forladte',empty:'Ingen samtaler her.',emptyHint:'Start en samtale med en kollega.',loading:'Indlæser…',retry:'Prøv igen',send:'Send besked',reply:'Skriv et svar',subject:'Emne',message:'Besked',recipients:'Modtagere',people:'Personer',groups:'Grupper',findPeople:'Søg efter personer og grupper',groupHint:'Grupper udvides til deres nuværende aktive brugere. Dubletter fjernes.',selected:'Valgte modtagere',noneSelected:'Vælg mindst én modtager.',add:'Tilføj deltagere',cancel:'Annuller',invite:'Tilføj deltagere',history:'Adgang til historik',future:'Kun nye beskeder',share:'Del min tilgængelige historik',shareHint:'Deler kun beskeder, som du allerede har adgang til.',mute:'Slå notifikationer fra',unmute:'Slå notifikationer til',muted:'Notifikationer slået fra',leave:'Forlad samtalen',leaveTitle:'Vil du forlade samtalen?',leaveHint:'Du beholder din tilgængelige historik. Du modtager ikke nye svar og kan ikke sende beskeder.',left:'Du har forladt samtalen. Din tilgængelige historik kan stadig læses.',earlier:'Indlæs tidligere beskeder',participants:'Deltagere',online:'Online',offline:'Offline',typing:'skriver…',sent:'Sendt',connecting:'Forbinder liveopdateringer…',reconnecting:'Genopretter liveopdateringer…',liveOffline:'Liveopdateringer er ikke tilgængelige. Prøver igen…',loadError:'Samtalerne kunne ikke indlæses.',sendError:'Beskeden blev ikke sendt. Din kladde er gemt. Prøv igen.',readError:'Læststatus kunne ikke gemmes. Prøv igen.',directoryError:'Modtagerne kunne ikke indlæses. Prøv igen.',actionError:'Ændringen kunne ikke gemmes. Kontrollér din adgang, og prøv igen.',validation:'Angiv et emne, en besked og mindst én modtager.',noRecipients:'Ingen modtagere fundet.',subjectLimit:'Emne: højst 120 tegn.',bodyLimit:'Besked: højst 4.000 tegn.',unreadMessages:'ulæste beskeder',loadThread:'Åbn samtale',newer:'Nye beskeder',person:'Person',group:'Gruppe'
+ formerUser:'Tidligere bruger',title:'Messenger',saving:'Gemmer…',open:'Åbn Messenger',unread:'ulæste samtaler',close:'Luk',back:'Tilbage til samtaler',new:'Ny samtale',search:'Søg i emner',active:'Aktive',unreadFilter:'Ulæste',former:'Forladte',empty:'Ingen samtaler her.',emptyHint:'Start en samtale med en kollega.',loading:'Indlæser…',retry:'Prøv igen',send:'Send besked',reply:'Skriv et svar',subject:'Emne',message:'Besked',recipients:'Modtagere',people:'Personer',groups:'Grupper',findPeople:'Søg efter personer og grupper',groupHint:'Grupper udvides til deres nuværende aktive brugere. Dubletter fjernes.',selected:'Valgte modtagere',noneSelected:'Vælg mindst én modtager.',add:'Tilføj deltagere',cancel:'Annuller',invite:'Tilføj deltagere',history:'Adgang til historik',future:'Kun nye beskeder',share:'Del min tilgængelige historik',shareHint:'Deler kun beskeder, som du allerede har adgang til.',mute:'Slå notifikationer fra',unmute:'Slå notifikationer til',muted:'Notifikationer slået fra',leave:'Forlad samtalen',leaveTitle:'Vil du forlade samtalen?',leaveHint:'Du beholder din tilgængelige historik. Du modtager ikke nye svar og kan ikke sende beskeder.',left:'Du har forladt samtalen. Din tilgængelige historik kan stadig læses.',earlier:'Indlæs tidligere beskeder',participants:'Deltagere',online:'Online',offline:'Offline',typing:'skriver…',sent:'Sendt',connecting:'Forbinder liveopdateringer…',reconnecting:'Genopretter liveopdateringer…',liveOffline:'Liveopdateringer er ikke tilgængelige. Prøver igen…',loadError:'Samtalerne kunne ikke indlæses.',sendError:'Beskeden blev ikke sendt. Din kladde er gemt. Prøv igen.',readError:'Læststatus kunne ikke gemmes. Prøv igen.',directoryError:'Modtagerne kunne ikke indlæses. Prøv igen.',actionError:'Ændringen kunne ikke gemmes. Kontrollér din adgang, og prøv igen.',validation:'Angiv et emne, en besked og mindst én modtager.',noRecipients:'Ingen modtagere fundet.',subjectLimit:'Emne: højst 120 tegn.',unreadMessages:'ulæste beskeder',loadThread:'Åbn samtale',newer:'Nye beskeder',person:'Person',group:'Gruppe'
 }};
 
 export const de:typeof en = {
@@ -65,7 +65,6 @@ export const de:typeof en = {
     "validation": "Geben Sie einen Betreff, eine Nachricht und mindestens einen Empfänger an.",
     "noRecipients": "Keine Empfänger gefunden.",
     "subjectLimit": "Betreff: höchstens 120 Zeichen.",
-    "bodyLimit": "Nachricht: höchstens 4.000 Zeichen.",
     "unreadMessages": "ungelesene Nachrichten",
     "loadThread": "Unterhaltung öffnen",
     "newer": "Neue Nachrichten",
@@ -134,7 +133,6 @@ export const nl:typeof en = {
     "validation": "Voer een onderwerp, een bericht en minstens één ontvanger in.",
     "noRecipients": "Geen ontvangers gevonden.",
     "subjectLimit": "Onderwerp: maximaal 120 tekens.",
-    "bodyLimit": "Bericht: maximaal 4.000 tekens.",
     "unreadMessages": "ongelezen berichten",
     "loadThread": "Gesprek openen",
     "newer": "Nieuwe berichten",
@@ -203,7 +201,6 @@ export const fr:typeof en = {
     "validation": "Saisissez un objet, un message et au moins un destinataire.",
     "noRecipients": "Aucun destinataire trouvé.",
     "subjectLimit": "Objet : 120 caractères maximum.",
-    "bodyLimit": "Message : 4 000 caractères maximum.",
     "unreadMessages": "messages non lus",
     "loadThread": "Ouvrir la conversation",
     "newer": "Nouveaux messages",
@@ -272,7 +269,6 @@ export const it:typeof en = {
     "validation": "Inserisci un oggetto, un messaggio e almeno un destinatario.",
     "noRecipients": "Nessun destinatario trovato.",
     "subjectLimit": "Oggetto: massimo 120 caratteri.",
-    "bodyLimit": "Messaggio: massimo 4.000 caratteri.",
     "unreadMessages": "messaggi non letti",
     "loadThread": "Apri conversazione",
     "newer": "Nuovi messaggi",
@@ -341,7 +337,6 @@ export const es:typeof en = {
     "validation": "Introduce un asunto, un mensaje y al menos un destinatario.",
     "noRecipients": "No se encontraron destinatarios.",
     "subjectLimit": "Asunto: máximo 120 caracteres.",
-    "bodyLimit": "Mensaje: máximo 4.000 caracteres.",
     "unreadMessages": "mensajes sin leer",
     "loadThread": "Abrir conversación",
     "newer": "Mensajes nuevos",
@@ -410,7 +405,6 @@ export const sv:typeof en = {
     "validation": "Ange ett ämne, ett meddelande och minst en mottagare.",
     "noRecipients": "Inga mottagare hittades.",
     "subjectLimit": "Ämne: högst 120 tecken.",
-    "bodyLimit": "Meddelande: högst 4 000 tecken.",
     "unreadMessages": "olästa meddelanden",
     "loadThread": "Öppna konversation",
     "newer": "Nya meddelanden",
@@ -479,7 +473,6 @@ export const nb:typeof en = {
     "validation": "Angi et emne, en melding og minst én mottaker.",
     "noRecipients": "Ingen mottakere funnet.",
     "subjectLimit": "Emne: høyst 120 tegn.",
-    "bodyLimit": "Melding: høyst 4 000 tegn.",
     "unreadMessages": "uleste meldinger",
     "loadThread": "Åpne samtale",
     "newer": "Nye meldinger",

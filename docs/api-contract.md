@@ -1,6 +1,6 @@
 # Messenger API contract
 
-Base: `/umbraco/management/api/v1/messenger`. Authentication is Umbraco backoffice OpenIddict, including HTTP-only cookie tokens. JSON camelCase. IDs are GUID strings; sequences are monotonically increasing safe integer values within a conversation. Subject limit 120 characters, body limit 4000, at most 100 expanded participants including sender. `take` 1..100; defaults 50.
+Base: `/umbraco/management/api/v1/messenger`. Authentication is Umbraco backoffice OpenIddict, including HTTP-only cookie tokens. JSON camelCase. IDs are GUID strings; sequences are monotonically increasing safe integer values within a conversation. Subject limit 120 characters, body limit 100,000, at most 100 expanded participants including sender. `take` 1..100; defaults 50.
 
 | Method | Relative path | Operation ID | Request | Response |
 | --- | --- | --- | --- | --- |

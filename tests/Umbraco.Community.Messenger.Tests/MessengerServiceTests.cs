@@ -138,7 +138,7 @@ public sealed class MessengerServiceTests
         await Error(400, () => f.Service.CreateAsync(f.Alice, new(" ", "Body", [f.Bob], [])));
         await Error(400, () => f.Service.CreateAsync(f.Alice, new(new string('a', 121), "Body", [f.Bob], [])));
         await Error(400, () => f.Service.CreateAsync(f.Alice, new("Subject", "", [f.Bob], [])));
-        await Error(400, () => f.Service.CreateAsync(f.Alice, new("Subject", new string('a', 4001), [f.Bob], [])));
+        await Error(400, () => f.Service.CreateAsync(f.Alice, new("Subject", new string('a', 100_001), [f.Bob], [])));
         await Error(400, () => f.Service.CreateAsync(f.Alice, new("Subject", "Body", [], [])));
         await Error(400, () => f.Service.CreateAsync(f.Alice, new("Subject", "Body", [Guid.NewGuid()], [])));
         await Error(400, () => f.Service.CreateAsync(f.Alice, new("Subject", "Body", [Guid.Empty], [])));
@@ -171,6 +171,35 @@ public sealed class MessengerServiceTests
         Assert.True(snapshot.Single(x => x.UserId == f.Bob).IsOnline);
         await f.Service.LeaveAsync(f.Bob, c.Id);
         Assert.DoesNotContain(await f.Service.HeartbeatAsync(f.Alice, c.Id, "alice"), x => x.UserId == f.Bob);
+    }
+
+    [Theory]
+    [InlineData(99_999)]
+    [InlineData(100_000)]
+    public async Task Long_messages_are_persisted_in_full_for_creation_and_replies(int length)
+    {
+        using var f = new ServiceFixture(); await f.MigrateAsync();
+        var initial = new string('æ', length - 1) + "ø";
+        var reply = new string('é', length - 1) + "ñ";
+        var c = await f.Service.CreateAsync(f.Alice, new("Long messages", initial, [f.Bob], []));
+        var sent = await f.Service.SendAsync(f.Bob, c.Id, new(reply));
+        Assert.Equal(reply, sent.Body);
+        Assert.Equal([initial, reply], (await f.Service.MessagesAsync(f.Bob, c.Id, null, 50)).Items.Select(x => x.Body));
+    }
+
+    [Fact]
+    public async Task Overlong_creation_and_reply_are_rejected_without_partial_writes()
+    {
+        using var f = new ServiceFixture(); await f.MigrateAsync();
+        var body = new string('a', 100_001);
+        var createError = await Assert.ThrowsAsync<MessengerException>(() => f.Service.CreateAsync(f.Alice, new("Too long", body, [f.Bob], [])));
+        Assert.Equal(400, createError.Status); Assert.Equal("invalidBody", createError.Code);
+        Assert.Empty((await f.Service.ListAsync(f.Alice)).Items);
+        var c = await f.CreateAsync(); f.Notifications.Clear();
+        var replyError = await Assert.ThrowsAsync<MessengerException>(() => f.Service.SendAsync(f.Bob, c.Id, new(body)));
+        Assert.Equal(400, replyError.Status); Assert.Equal("invalidBody", replyError.Code);
+        Assert.Equal("First", (await f.Service.MessagesAsync(f.Alice, c.Id, null, 50)).Items.Single().Body);
+        Assert.Empty(f.Notifications);
     }
 
     private static async Task Error(int status, Func<Task> action)

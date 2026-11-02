@@ -128,7 +128,7 @@ export class MessengerContext extends UmbContextBase {
   setDraft(id:string,body:string){this.#set({drafts:{...this.snapshot.drafts,[id]:body}});}
   async send(){
     const {detail,drafts}=this.snapshot;if(!detail?.isActive||this.snapshot.busy)return false;
-    const body=drafts[detail.id]?.trim();if(!body||body.length>4000)return false;
+    const body=drafts[detail.id]?.trim();if(!body||body.length>100000)return false;
     const epoch=this.#epoch;this.#set({busy:true,error:undefined});this.stopTyping();
     try{await api.postMessengerMessage({path:{id:detail.id},body:{body},throwOnError:true});if(!this.#valid(epoch))return false;if(this.snapshot.drafts[detail.id]===drafts[detail.id])this.setDraft(detail.id,'');await this.refresh();if(this.snapshot.selected===detail.id)await this.loadDetail();return true;}
     catch{if(this.#valid(epoch))this.#set({error:'sendError'});return false;}finally{if(this.#valid(epoch))this.#set({busy:false});}
