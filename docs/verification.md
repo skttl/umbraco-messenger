@@ -27,4 +27,12 @@ The real demo was tested with the generated administrator and both synthetic Edi
 
 Presence is process-local. Multiple web instances require distributed presence in addition to an appropriate SignalR backplane. Extended browser token-expiry testing, load testing and a hosted SQL Server website installation have not been performed. Demo provisioning failure rollback is represented by the explicit core transaction and was reviewed, but a forced password failure has not been exercised in a running demo. The first release uses plain text and no email or attachments.
 
-Umbraco 17 and final repository-location checks will be recorded after their separate verification.
+## Umbraco 17
+
+`v17/main` compiles the library against Umbraco 17.0.0 and runs the separate 17.7.1 demo database at the requested repository location. All 26 server tests and 17 client tests pass. The actual v17 Swagger document generates the authenticated SDK, and the generated client passes strict TypeScript/Vite compilation. The 17.0.0 nupkg validates with 21 entries and `[17.0.0,18.0.0)` dependency range. Patched MailKit is pinned for the lower-bound graph; the demo pins ImageSharp 3.2.0 and its Debug build reports the expected missing-license warning. Release builds of that demo require a Six Labors license. Messenger library pack succeeds without that demo dependency.
+
+Actual browser checks on 17 cover administrator and Editor login, real directory/group expansion, duplicate participant removal, sending a group message, unread badge clearing on read, editor reply and live delivery to the administrator. The dedicated Messenger WebSocket connects with backoffice authentication. Databases and credentials remain separate from packaged assets.
+
+## Repository delivery
+
+Repository: `C:\Workspaces\Packages\umbraco-messenger`. The checkout was moved intact after the first reviewed implementation and verified on 17 at this location. It will be returned to main and rebuilt there before delivery. No existing target repository was overwritten. The new repository files are owned by the Windows user, without adding global Git safe-directory exceptions.
