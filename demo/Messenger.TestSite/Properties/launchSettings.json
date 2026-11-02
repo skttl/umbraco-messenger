@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Messenger.TestSite": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5189",
+      "environmentVariables": { "ASPNETCORE_ENVIRONMENT": "Development" }
+    }
+  }
+}
