@@ -32,11 +32,11 @@
 **Files:** package C# source under `src/Umbraco.Community.Messenger/`, backend tests under `tests/Umbraco.Community.Messenger.Tests/`.
 **Produces:** Compiling controller with explicit OpenAPI DTOs and operation IDs, migration, service and authenticated hub. Publish API contract in `docs/api-contract.md` before client implementation.
 
-- [ ] Write meaningful tests for authorization, recipient expansion, history intervals and message/read/mute/leave operations, then implement.
-- [ ] Implement transactional persistence using Umbraco scope/database conventions and automatic package migrations.
-- [ ] Implement controller and live hub with identity from authenticated principal and conversation access checks on every operation.
-- [ ] Build and run backend tests. Record exact commands and outcomes in task report.
-- [ ] Task review for spec compliance and code quality; resolve important issues.
+- [x] Write meaningful tests for authorization, recipient expansion, history intervals and message/read/mute/leave operations, then implement.
+- [x] Implement transactional persistence using Umbraco scope/database conventions and automatic package migrations.
+- [x] Implement controller and live hub with identity from authenticated principal and conversation access checks on every operation.
+- [x] Build and run backend tests. Record exact commands and outcomes in task report.
+- [x] Task review for spec compliance and code quality; resolve important issues.
 
 ## Task 2: Native backoffice client
 
@@ -44,20 +44,20 @@
 **Consumes:** Actual controller OpenAPI and `docs/api-contract.md` from Task 1.
 **Produces:** Compiled native headerApp and sidepanel; generated authenticated client; DA/EN localization.
 
-- [ ] Generate client from actual API, configure auth compatible with each branch, and keep generated source.
-- [ ] Implement conversation list/detail, compose, recipient/group selection, history sharing, mute/leave, unread badge, typing and presence using real API/hub.
-- [ ] Add meaningful client checks for state behavior, encoding and unread selection. Handle errors and lifecycle cleanup.
-- [ ] Build client; verify tests; task review and important fixes.
+- [x] Generate client from actual API, configure auth compatible with each branch, and keep generated source.
+- [x] Implement conversation list/detail, compose, recipient/group selection, history sharing, mute/leave, unread badge, typing and presence using real API/hub.
+- [x] Add meaningful client checks for state behavior, encoding and unread selection. Handle errors and lifecycle cleanup.
+- [x] Build client; verify tests; task review and important fixes.
 
 ## Task 3: Demo, packaging and documentation
 
 **Files:** `demo/`, `.github/workflows/`, root metadata, README, `docs/`, package project metadata.
 **Consumes:** Tasks 1 and 2 output. Preserve authored production files.
 
-- [ ] Add runnable SQLite demo with generated local dev credentials and package project reference.
-- [ ] Add CI and release validation following Handbook's structure, supporting bounded major-specific dependency ranges.
-- [ ] Add license/readme/marketplace metadata/icon and usage/development documentation; no dummy credentials or user data in packages.
-- [ ] Run demo; generate API from its actual document; verify package contents and task review.
+- [x] Add runnable SQLite demo with generated local dev credentials and package project reference.
+- [x] Add CI and release validation following Handbook's structure, supporting bounded major-specific dependency ranges.
+- [x] Add license/readme/marketplace metadata/icon and usage/development documentation; no dummy credentials or user data in packages.
+- [x] Run demo; generate API from its actual document; verify package contents and task review.
 
 ## Task 4: Dual-major verification and delivery
 
