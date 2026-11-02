@@ -20,6 +20,10 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Umbraco.Cms.Api.Management" Version="[18.0.0,19.0.0)" />
+    <!-- Keep the supported lower-bound graph on patched dependency releases. -->
+    <PackageReference Include="Microsoft.OpenApi" Version="2.13.0" />
+    <PackageReference Include="MessagePack" Version="3.1.12" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Client/**" />

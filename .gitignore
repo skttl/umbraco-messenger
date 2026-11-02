@@ -15,3 +15,6 @@ artifacts/
 **/*.db
 **/*.db-*
 **/package-lock.json.tmp
+demo/**/appsettings-schema*.json
+demo/**/umbraco-package-schema.json
+**/TestResults/
