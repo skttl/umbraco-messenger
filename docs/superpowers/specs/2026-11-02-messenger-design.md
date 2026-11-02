@@ -5,7 +5,7 @@ User approved development after a working sidepanel prototype. Build a locally r
 ## Requirements
 
 - Package `Umbraco.Community.Messenger`; `main` targets Umbraco 18 with versions `18.x.x`; `v17/main` targets Umbraco 17 with versions `17.x.x`. Both use .NET 10 as in Handbook.
-- Native backoffice header app with unread indication; clicking opens the selected non-blocking right sidepanel, initially the conversation list, then a conversation with a back button. Follow the approved prototype in `docs/prototype.html`.
+- Native backoffice header app with unread indication; clicking opens the native small Umbraco sidebar with dimmed backdrop, matching the user-profile panel, initially the conversation list, then a conversation with a back button. Follow the approved prototype in `docs/prototype.html`.
 - Persistent threaded messages, individual read/unread tracking, individual mute, leave and add participants.
 - Recipient groups are expanded once to distinct active users at send/invite time. Later membership changes do not change conversation membership. All active participants see replies within their authorized history.
 - Every active participant can add users or expand groups. Invitation selects history: future messages only by default, or share the inviter's accessible history. Never grant access to history the inviter cannot read.
@@ -25,11 +25,11 @@ The user asked to start building with subagents. Remaining reversible product de
 
 Use Umbraco NPoco tables and package migrations for conversations, messages, participants, and per-participant historical visibility intervals. Transactional database operations enforce group expansion, read markers, leave/invite/message ordering and visibility; avoid timestamps as security boundaries. Expose a documented Management API and generated TypeScript client. Register a separate authenticated SignalR hub using core authentication patterns rather than depending on Umbraco internal hub contracts.
 
-Client uses Lit/UUI and Umbraco contexts, an accessible nonmodal sidepanel, proper errors/loading/empty states, and separate short confirmation/recipient dialogs. Unread state is updated only after reading an open conversation, and new replies arriving while the list is open remain unread.
+Client uses Lit/UUI and Umbraco contexts, the native accessible sidebar, proper errors/loading/empty states, and separate short confirmation/recipient dialogs. Unread state is updated only after reading an open conversation, and new replies arriving while the list is open remain unread.
 
 ## Alternatives considered
 
-- Sidepanel versus large modal: user selected sidepanel after testing both; preserve editing context.
+- Sidebar: the user subsequently requested the standard Umbraco user-profile sidebar, including its full-height layout and dimmed backdrop.
 - Persistent group rooms versus recipient expansion: user selected mail-list expansion; later group members never inherit access.
 - Internal core hub versus dedicated package hub: choose dedicated hub, sharing the framework but owning auth and event contract.
 

@@ -1,6 +1,6 @@
 # Using Messenger
 
-Select the speech bubbles in the backoffice header to open Messenger. The panel stays open while navigating the backoffice. Escape or Close closes it and returns focus to its opener.
+Select the speech bubbles in the backoffice header to open Messenger. Messenger uses the same full-height sidebar and dimmed backdrop as the user profile. Escape or Close closes it. Umbraco manages focus and closes the sidebar on navigation. Reply drafts remain in the Messenger context.
 
 Choose New conversation, enter a subject and message, then select users or groups. A group is expanded to its current enabled users once when sending or inviting: later group membership changes do not alter the conversation.
 

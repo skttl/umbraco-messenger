@@ -1,6 +1,6 @@
 # Messenger for Umbraco
 
-Plain text threaded conversations inside the backoffice, with a nonmodal header panel, unread state, mute, participant invitations, online presence and typing indicators. English and Danish UI.
+Plain text threaded conversations inside the backoffice, with the standard Umbraco sidebar, unread state, mute, participant invitations, online presence and typing indicators. English, Danish, German, Dutch, French, Italian, Spanish, Swedish and Norwegian Bokmål UI.
 
 Use the package major matching Umbraco: 18.x for Umbraco 18, 17.x for Umbraco 17. Both require .NET 10. Restart after installation to run migrations. Node is not required by consuming sites.
 
