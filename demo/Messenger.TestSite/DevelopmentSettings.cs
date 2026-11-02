@@ -6,6 +6,7 @@ internal static class DevelopmentSettings
     internal static void Configure(WebApplicationBuilder builder)
     {
         if (!builder.Environment.IsDevelopment()) return;
+        Directory.CreateDirectory(Path.Combine(builder.Environment.ContentRootPath, "umbraco", "Data"));
         var path = Path.Combine(builder.Environment.ContentRootPath, "appsettings.Local.json");
         if (!File.Exists(path))
         {
