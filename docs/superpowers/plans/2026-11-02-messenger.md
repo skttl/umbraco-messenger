@@ -16,7 +16,7 @@
 - All REST and hub endpoints require backoffice authentication.
 - Leaving keeps already accessible history and removes future access.
 - All active participants can add users; only inviter-accessible history may be shared.
-- Build the approved non-blocking right sidepanel. Do not replace it with a large modal.
+- Use the native small Umbraco sidebar, matching the user-profile panel (updated user request).
 - No remote repository creation or publishing is requested.
 
 ## Review Focus
@@ -42,7 +42,7 @@
 
 **Files:** `src/Umbraco.Community.Messenger/Client/**`, public manifest/assets.
 **Consumes:** Actual controller OpenAPI and `docs/api-contract.md` from Task 1.
-**Produces:** Compiled native headerApp and sidepanel; generated authenticated client; DA/EN localization.
+**Produces:** Compiled native headerApp and sidepanel; generated authenticated client; EN/DA/DE/NL/FR/IT/ES/SV/NB localization.
 
 - [x] Generate client from actual API, configure auth compatible with each branch, and keep generated source.
 - [x] Implement conversation list/detail, compose, recipient/group selection, history sharing, mute/leave, unread badge, typing and presence using real API/hub.

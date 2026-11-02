@@ -1,6 +1,6 @@
 # Messenger for Umbraco
 
-Internal, plain text conversations for Umbraco backoffice users. The header button opens a nonmodal panel, so editors can keep their editing context. Includes English and Danish UI, unread indicators, mute, participant invitations, presence and typing indicators.
+Internal, plain text conversations for Umbraco backoffice users. The header button opens the standard Umbraco sidebar, like the user profile. Includes English, Danish, German, Dutch, French, Italian, Spanish, Swedish and Norwegian Bokmål UI, unread indicators, mute, participant invitations, presence and typing indicators.
 
 ## Installation
 

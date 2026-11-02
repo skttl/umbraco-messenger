@@ -15,7 +15,7 @@ This is a local implementation, not a published release. No GitHub remote, NuGet
 The real demo was tested with the generated administrator and both synthetic Editor accounts, using separate local origins for independent authenticated sessions.
 
 - Administrator and both Editors can sign in. The directory shows the real users and groups. The dedicated Messenger WebSocket connects with backoffice authentication; anonymous REST and hub negotiation receive 401.
-- The native header opens a nonblocking sidepanel. It remains open while navigating from Content to Media. Escape and the close button return keyboard focus to the Messenger launcher.
+- The original custom panel was subsequently replaced with the native small Umbraco sidebar, matching the user-profile panel. Browser checks on Umbraco 18 verified the full-height layout, dimmed backdrop, nested compose dialog, Escape and focus restoration on Close.
 - Create conversation, read notification, reply and cross-user live delivery work. Opening the unread conversation clears its header count. HTML-like message content is displayed as literal text.
 - An ordinary Editor adds the Editors group. It expands to current distinct users. The newly added Editor sees only subsequent messages with the default future-only choice.
 - Muting a thread leaves the header count unchanged when later messages arrive while the panel is closed.
@@ -44,3 +44,7 @@ The 18.0.0 nupkg was restored from the local artifacts feed into a separate fres
 ## Final review
 
 The independent whole-branch review found no Critical or Important issue. Its remaining Minor concerns future archive-validator coverage of static-asset registration and chunk closure. Both current archives were separately inspected and have correct props/imports and all referenced chunks; the installed-consumer check additionally exercises their registration. No publication or production rollout is claimed.
+
+## Native sidebar and localization update
+
+All UI strings use Umbraco localization. Complete dictionaries are registered for en, da, de, nl, fr, it, es, sv and nb (Norwegian Bokmål), with English fallback. The locale-completeness checks assert all nine cultures and every key. The client suite passes 28 tests on Umbraco 18; TypeScript and Vite builds pass. Native small-sidebar behavior is shared with the core user-profile token on both majors. German regional culture de-DE was verified through the actual user-profile UI. Translations have not been reviewed by native speakers.
