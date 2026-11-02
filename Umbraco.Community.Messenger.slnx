@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Umbraco.Community.Messenger/Umbraco.Community.Messenger.csproj" />
+  </Folder>
+  <Folder Name="/demo/">
+    <Project Path="demo/Messenger.TestSite/Messenger.TestSite.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Umbraco.Community.Messenger.Tests/Umbraco.Community.Messenger.Tests.csproj" />
+  </Folder>
+</Solution>

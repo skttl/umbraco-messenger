@@ -1,0 +1,17 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/wwwroot/App_Plugins/Messenger/*.js
+**/wwwroot/App_Plugins/Messenger/*.js.map
+**/wwwroot/App_Plugins/Messenger/DEPENDENCY_LICENSES.txt
+artifacts/
+.vs/
+.superpowers/
+**/umbraco/Data/
+**/umbraco/Logs/
+**/appsettings.Local.json
+**/appsettings.*.Local.json
+**/*.sqlite*
+**/*.db
+**/*.db-*
+**/package-lock.json.tmp

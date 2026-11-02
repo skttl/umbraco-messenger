@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Umbraco.Community.Messenger</PackageId>
+    <Version>18.0.0</Version>
+    <Authors>skttl</Authors>
+    <Description>Internal threaded messaging for Umbraco backoffice users.</Description>
+    <PackageTags>umbraco;umbraco-marketplace;messenger;messages;editors</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/skttl/umbraco-messenger</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/skttl/umbraco-messenger</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" Version="[18.0.0,19.0.0)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Client/**" />
+    <None Remove="Client/**" />
+    <None Include="../../docs/nuget-readme.md" Pack="true" PackagePath="README.md" />
+    <None Include="../../icon.png" Pack="true" PackagePath="icon.png" />
+    <None Include="../../icon.svg" Pack="true" PackagePath="icon.svg" />
+    <None Include="../../THIRD_PARTY_NOTICES.md" Pack="true" PackagePath="THIRD_PARTY_NOTICES.md" />
+  </ItemGroup>
+</Project>
