@@ -35,4 +35,12 @@ Actual browser checks on 17 cover administrator and Editor login, real directory
 
 ## Repository delivery
 
-Repository: `C:\Workspaces\Packages\umbraco-messenger`. The checkout was moved intact after the first reviewed implementation and verified on 17 at this location. It will be returned to main and rebuilt there before delivery. No existing target repository was overwritten. The new repository files are owned by the Windows user, without adding global Git safe-directory exceptions.
+Repository: `C:\Workspaces\Packages\umbraco-messenger`. The checkout was moved intact after the first reviewed implementation and verified on 17 at this location. The checkout is back on main. At this location, all 26 server tests and 17 client tests passed again, the client rebuilt, and both actual nupkgs passed validation. The 18 demo is running on localhost:5189. No existing target repository was overwritten. The new repository files are owned by the Windows user, without adding global Git safe-directory exceptions.
+
+## Installed package consumer check
+
+The 18.0.0 nupkg was restored from the local artifacts feed into a separate fresh Umbraco 18.3.0 application using only PackageReference. No Messenger ProjectReference or npm build was used. Its static manifest, JavaScript and OpenAPI routes returned 200. Actual backoffice login and the native Messenger panel worked, including an authorized empty conversation list after automatic migrations. The isolated smoke application was stopped after verification.
+
+## Final review
+
+The independent whole-branch review found no Critical or Important issue. Its remaining Minor concerns future archive-validator coverage of static-asset registration and chunk closure. Both current archives were separately inspected and have correct props/imports and all referenced chunks; the installed-consumer check additionally exercises their registration. No publication or production rollout is claimed.
