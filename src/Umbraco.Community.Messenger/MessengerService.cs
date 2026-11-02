@@ -66,7 +66,7 @@ public sealed class MessengerService(IScopeProvider scopes, IUserService users, 
         }
         var directory = new List<ParticipantResponse>();
         foreach (var member in members)
-            directory.Add(new(member.UserKey, (await users.GetAsync(member.UserKey))?.Name ?? "Former user", member.Active));
+            directory.Add(new(member.UserKey, (await users.GetAsync(member.UserKey))?.Name ?? string.Empty, member.Active));
         return new(id, conversation.Subject, participant.Active, participant.Muted, unread, participant.LastReadSequence,
             last is null ? null : await ResponseAsync(last), directory);
     }
@@ -335,7 +335,7 @@ public sealed class MessengerService(IScopeProvider scopes, IUserService users, 
         }
     }
     private async Task<MessageResponse> ResponseAsync(MessageDto message) => new(message.Id, message.Sequence, message.SenderKey,
-        (await users.GetAsync(message.SenderKey))?.Name ?? "Former user", message.Body, DateTime.SpecifyKind(message.CreatedUtc, DateTimeKind.Utc));
+        (await users.GetAsync(message.SenderKey))?.Name ?? string.Empty, message.Body, DateTime.SpecifyKind(message.CreatedUtc, DateTimeKind.Utc));
     private DateTime UtcNow => clock.GetUtcNow().UtcDateTime;
     private static string Text(string? text, int max, string code)
     {
