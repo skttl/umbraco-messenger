@@ -166,6 +166,3 @@ export class MessengerContext extends UmbContextBase {
   clearError(){this.#readAttempted.clear();this.#set({error:undefined});}
 }
 export { MessengerContext as api };
-
-
-

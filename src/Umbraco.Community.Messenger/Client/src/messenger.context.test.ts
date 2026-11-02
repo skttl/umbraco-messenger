@@ -56,4 +56,3 @@ describe('live lifecycle',()=>{
    expect(await mocks.hubOptions.accessTokenFactory()).toBe('first');expect(await mocks.hubOptions.accessTokenFactory()).toBe('second');expect(mocks.hubOptions.withCredentials).toBe(true);
  });
 });
-

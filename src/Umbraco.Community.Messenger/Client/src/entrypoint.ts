@@ -13,4 +13,3 @@ export const onInit:UmbEntryPointOnInit = async(host,registry)=>{
   ];
   registry.registerMany(manifests);
 };
-

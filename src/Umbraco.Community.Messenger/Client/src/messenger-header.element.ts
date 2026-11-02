@@ -141,6 +141,3 @@ export class MessengerHeaderElement extends UmbLitElement {
     @media(max-width:500px){#panel{top:0;height:100dvh;width:100vw}.thread-actions{font-size:10px}.message .row{flex-wrap:wrap;gap:3px}}`;
 }
 export default MessengerHeaderElement;
-
-
-
