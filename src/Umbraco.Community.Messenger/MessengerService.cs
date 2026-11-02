@@ -94,7 +94,7 @@ public sealed class MessengerService(IScopeProvider scopes, IUserService users, 
     {
         await ValidateAccessAsync(actor);
         var subject = Text(request.Subject, 120, "invalidSubject");
-        var body = Text(request.Body, 4000, "invalidBody");
+        var body = Text(request.Body, 100_000, "invalidBody");
         var keys = await ExpandAsync(request.UserIds, request.GroupIds);
         keys.Add(actor);
         if (keys.Count < 2) throw new MessengerException(400, "recipientRequired");
@@ -119,7 +119,7 @@ public sealed class MessengerService(IScopeProvider scopes, IUserService users, 
     public async Task<MessageResponse> SendAsync(Guid actor, Guid id, SendMessageRequest request)
     {
         await ValidateAccessAsync(actor);
-        var body = Text(request.Body, 4000, "invalidBody");
+        var body = Text(request.Body, 100_000, "invalidBody");
         MessageDto message;
         using (var scope = scopes.CreateScope())
         {

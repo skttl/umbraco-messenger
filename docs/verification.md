@@ -50,3 +50,11 @@ The independent whole-branch review found no Critical or Important issue. Its re
 All UI strings use Umbraco localization. Complete dictionaries are registered for en, da, de, nl, fr, it, es, sv and nb (Norwegian Bokmål), with English fallback. The locale-completeness checks assert all nine cultures and every key. The client suite passes 29 tests on both Umbraco 17 and 18; TypeScript and Vite builds pass. Native small-sidebar behavior is shared with the core user-profile token on both majors. German regional culture de-DE was verified through the actual user-profile UI. Translations have not been reviewed by native speakers.
 
 Deleted-account names are represented as empty strings by the API and rendered through the formerUser localization key, including message senders and participant lists. A UI regression test covers the former-participant label. Danish da-DK and German de-DE were checked through the actual Umbraco 18 user-profile language setting. The 17 build uses its original authentication configuration.
+
+## Conversation layout and longer messages
+
+Updated both major branches: one-row new/search toolbar, subject and compact back button in the native header, actions at the reply field, and nested native sidebars for new conversations and participant invitations. Leave remains a confirmation dialog. The old body-limit hint and character counter are removed in all nine languages.
+
+Client checks: 42 tests cover native modal selection, header and composer placement, nested-panel read-state suppression, preserved failed drafts, pending cancellation guards, and the 100,000/100,001 create and reply boundaries. Server checks: 29 tests, including Unicode persistence at 99,999/100,000 and rejection at 100,001 without writes or events. Body storage already uses NVARCHARMAX; no schema migration was needed. The new boundary cases ran on SQLite; SQL Server storage was inspected, not rerun.
+
+Browser checks on Umbraco 18: toolbar alignment, header subject/back arrow, composer actions, both stacked sidebars, Cancel/Escape returning to the underlying panel, and a reply draft surviving list/detail navigation and a nested panel. The live demo was restarted with the built assets.

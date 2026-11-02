@@ -8,6 +8,7 @@ export const onInit:UmbEntryPointOnInit = async(host,registry)=>{
   const manifests:UmbExtensionManifest[] = [
     ...Object.entries(localizations).map(([culture,translation])=>({type:'localization' as const,alias:`Messenger.Localization.${culture}`,name:`Messenger ${culture}`,meta:{culture},js:async()=>({default:translation})})),
     {type:'modal',alias:'Messenger.Sidebar',name:'Messenger sidebar',element:()=>import('./messenger-sidebar.element')},
+    {type:'modal',alias:'Messenger.Flow',name:'Messenger conversation form',element:()=>import('./messenger-flow.element')},
     {type:'globalContext',alias:'Messenger.Context',name:'Messenger context',api:()=>import('./messenger.context')},
     {type:'headerApp',alias:'Messenger.HeaderApp',name:'Messenger',weight:100,element:()=>import('./messenger-header.element')},
   ];
