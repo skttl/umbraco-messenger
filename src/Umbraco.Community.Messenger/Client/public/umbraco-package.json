@@ -1,0 +1,1 @@
+{"name":"Messenger","version":"18.0.0","extensions":[{"type":"backofficeEntryPoint","alias":"Messenger.EntryPoint","name":"Messenger entry point","js":"/App_Plugins/Messenger/messenger.js"}]}

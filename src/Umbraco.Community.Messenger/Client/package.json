@@ -1,0 +1,31 @@
+{
+  "name": "umbraco-community-messenger",
+  "version": "18.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "generate-client": "openapi-ts"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "0.99.0",
+    "@microsoft/signalr": "^10.0.0",
+    "@umbraco-cms/backoffice": "18.0.0",
+    "@umbraco-ui/uui": "^2.0.0",
+    "lit": "^3.3.1",
+    "rxjs": "^7.8.2",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.0",
+    "vitest": "^4.0.0"
+  },
+  "overrides": {
+    "@hey-api/json-schema-ref-parser": {
+      "js-yaml": "4.3.2"
+    }
+  },
+  "engines": {
+    "npm": ">=11",
+    "node": ">=24.13"
+  }
+}
