@@ -10,5 +10,7 @@
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.14" />
     <ProjectReference Include="../../src/Umbraco.Community.Messenger/Umbraco.Community.Messenger.csproj" />
     <Using Include="Xunit" />
+    <Compile Include="../../demo/Messenger.TestSite/DevelopmentSettings.cs" Link="Demo/DevelopmentSettings.cs" />
+    <Compile Include="../../demo/Messenger.TestSite/DemoUsers.cs" Link="Demo/DemoUsers.cs" />
   </ItemGroup>
 </Project>

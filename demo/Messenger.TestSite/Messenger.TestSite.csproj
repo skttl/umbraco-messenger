@@ -14,5 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Local.json" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.DemoUsers.Local.json" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
   </ItemGroup>
 </Project>

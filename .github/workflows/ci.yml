@@ -1,0 +1,43 @@
+name: Build and validate
+on:
+  push:
+    branches: [main, v17/main]
+  pull_request:
+    branches: [main, v17/main]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.0'
+          cache: npm
+          cache-dependency-path: src/Umbraco.Community.Messenger/Client/package-lock.json
+      - name: Client tests and build
+        working-directory: src/Umbraco.Community.Messenger/Client
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Restore, test, build demo and pack
+        run: |
+          dotnet restore Umbraco.Community.Messenger.slnx --configfile NuGet.Config
+          dotnet test tests/Umbraco.Community.Messenger.Tests --configuration Release --no-restore
+          dotnet build demo/Messenger.TestSite --configuration Debug --no-restore
+          dotnet pack src/Umbraco.Community.Messenger --configuration Release --no-restore --output artifacts
+      - name: Validate release archive
+        run: |
+          python3 scripts/test-validate-package.py
+          version=$(dotnet msbuild src/Umbraco.Community.Messenger/Umbraco.Community.Messenger.csproj -getProperty:Version)
+          python3 scripts/validate-package.py "artifacts/Umbraco.Community.Messenger.$version.nupkg" "$version"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: messenger-packages
+          path: artifacts/*.nupkg
+          if-no-files-found: error

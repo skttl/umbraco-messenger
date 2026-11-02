@@ -18,3 +18,4 @@ artifacts/
 demo/**/appsettings-schema*.json
 demo/**/umbraco-package-schema.json
 **/TestResults/
+**/__pycache__/

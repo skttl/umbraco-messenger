@@ -32,5 +32,6 @@
     <None Include="../../icon.png" Pack="true" PackagePath="icon.png" />
     <None Include="../../icon.svg" Pack="true" PackagePath="icon.svg" />
     <None Include="../../THIRD_PARTY_NOTICES.md" Pack="true" PackagePath="THIRD_PARTY_NOTICES.md" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,70 @@
+name: Publish to NuGet
+on:
+  push:
+    tags: ['v17.*', 'v18.*']
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate tag and release branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v(17|18)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo 'Expected a stable v17.x.y or v18.x.y tag' >&2
+            exit 1
+          fi
+          major="${BASH_REMATCH[1]}"
+          branch=main
+          if [[ "$major" == 17 ]]; then branch=v17/main; fi
+          git merge-base --is-ancestor "$GITHUB_SHA" "refs/remotes/origin/$branch"
+          echo "PACKAGE_VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.0'
+          cache: npm
+          cache-dependency-path: src/Umbraco.Community.Messenger/Client/package-lock.json
+      - name: Client tests and build
+        working-directory: src/Umbraco.Community.Messenger/Client
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Validate source version, test and pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(dotnet msbuild src/Umbraco.Community.Messenger/Umbraco.Community.Messenger.csproj -getProperty:Version)
+          test "$version" = "$PACKAGE_VERSION"
+          dotnet restore Umbraco.Community.Messenger.slnx --configfile NuGet.Config
+          dotnet test tests/Umbraco.Community.Messenger.Tests --configuration Release --no-restore
+          dotnet build demo/Messenger.TestSite --configuration Debug --no-restore
+          dotnet pack src/Umbraco.Community.Messenger --configuration Release --no-restore --output artifacts
+          python3 scripts/test-validate-package.py
+          python3 scripts/validate-package.py "artifacts/Umbraco.Community.Messenger.$PACKAGE_VERSION.nupkg" "$PACKAGE_VERSION"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: messenger-release-package
+          path: artifacts/*.nupkg
+          if-no-files-found: error
+      - name: Log in with GitHub OIDC
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+      - name: Publish validated package
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push "artifacts/Umbraco.Community.Messenger.${PACKAGE_VERSION}.nupkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate

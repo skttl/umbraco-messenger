@@ -1,5 +1,8 @@
 using System.Security.Cryptography;
 using System.Text.Json;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 internal static class DevelopmentSettings
 {
@@ -10,7 +13,7 @@ internal static class DevelopmentSettings
         var path = Path.Combine(builder.Environment.ContentRootPath, "appsettings.Local.json");
         if (!File.Exists(path))
         {
-            var database = Path.Combine(builder.Environment.ContentRootPath, "umbraco", "Data", "Messenger.sqlite.db");
+            var database = Path.Combine(builder.Environment.ContentRootPath, "umbraco", "Data", "Messenger18.sqlite.db");
             if (File.Exists(database))
                 throw new InvalidOperationException("The demo database exists but appsettings.Local.json is missing. Restore your local settings or reset the admin password using Umbraco's supported recovery process.");
 
