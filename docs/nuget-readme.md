@@ -9,3 +9,5 @@ Groups expand to enabled users at send/invite time. Invitations default to futur
 First release supports one application server: messages are durable, presence and typing process-local. SignalR requires hosting/proxy support; multi-server use requires additional coordination. No email, HTML, attachments, editing or deletion. Subject limit 120 characters, message limit 100,000, maximum 100 expanded participants. Recipient directory shows up to 50 users and 50 groups per query; search examines the first 1000 groups and accepts up to 100 characters.
 
 MIT licensed. Bundled dependency license texts are included in static web assets; see THIRD_PARTY_NOTICES.md.
+
+See [screenshots and the illustrated guide](https://github.com/skttl/umbraco-messenger/blob/main/docs/using-messenger.md#screenshots) for the native sidebar, group recipients and participant history options.

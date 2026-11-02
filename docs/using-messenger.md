@@ -15,3 +15,31 @@ Online and typing indicators are temporary and visible only to active participan
 Search and New conversation share one toolbar row. In a conversation the header contains the back arrow and subject; participant, mute and leave actions sit beside the reply composer. New conversation and Add participants open a second native sidebar; Cancel or Escape returns to the underlying panel. Leave uses a confirmation dialog. Pending submissions cannot be cancelled; failed submissions preserve their fields.
 
 Messages allow up to 100,000 characters, without a visible character counter. Existing installations already store message bodies in an unlimited text column, so this change needs no migration. Bodies use HTTP endpoints; SignalR only announces changes by conversation ID.
+
+## Screenshots
+
+These screenshots show the Danish UI in the Umbraco 18 demo. The same Messenger layout is used on Umbraco 17. User names and messages belong to the local demo.
+
+### Conversation list
+
+Open Messenger from the header. Search by subject or use the Active, Unread and Former filters. New conversation sits beside the search field.
+
+![Messenger conversation list with search, filters and the new conversation button](images/messenger-list.jpg)
+
+### Reading and replying
+
+The header shows the subject and back arrow. Participants and online presence appear beneath it. Reply at the bottom, where you can also add participants, mute notifications or leave the conversation.
+
+![Messenger thread with participant presence, messages and conversation actions beside the reply field](images/messenger-thread.jpg)
+
+### New conversation
+
+New conversation opens a second sidebar. Enter a subject, choose users or groups and write the first message. The example shows an unsent draft addressed to Editors; groups expand to their current enabled users when sent.
+
+![New conversation sidebar with a subject, the Editors group selected and a message draft](images/messenger-compose.jpg)
+
+### Adding participants
+
+Add participants opens a second sidebar above the conversation. New participants receive only new messages by default. Choose Share my accessible history to grant access to messages you can already read.
+
+![Add participants sidebar with group choices and options for sharing conversation history](images/messenger-participants.jpg)

@@ -2,6 +2,14 @@
 
 Internal, plain text conversations for Umbraco backoffice users. The header button opens the standard Umbraco sidebar, like the user profile. Includes English, Danish, German, Dutch, French, Italian, Spanish, Swedish and Norwegian Bokmål UI, unread indicators, mute, participant invitations, presence and typing indicators.
 
+## Screenshots
+
+Messenger uses Umbraco's native sidebar, with the conversation subject and back button in the header and reply controls at the bottom.
+
+![A Messenger conversation with participants, messages and reply controls](docs/images/messenger-thread.jpg)
+
+See the [illustrated guide](docs/using-messenger.md#screenshots) for the conversation list, group recipients and participant history options. Screenshots show the Danish UI in the Umbraco 18 demo; the same Messenger layout is used on Umbraco 17.
+
 ## Installation
 
 Use the package major matching your Umbraco major. Package consumers do not need Node.
@@ -20,4 +28,4 @@ This first release supports a single application server. Durable messages and vi
 
 Messages are plain text. No email, attachments, editing or deletion. Subjects allow 120 characters and messages 100,000; a conversation allows 100 expanded participants including its creator. The recipient directory returns enabled account and group names, with up to 50 users and 50 groups per query; search is limited to 100 characters. Group search examines the first 1000 groups. Search for recipients outside the initial results.
 
-The repository and publishing configuration are prepared locally; no public repository or NuGet publication is implied by this source tree. MIT licensed; see [third-party notices](THIRD_PARTY_NOTICES.md).
+Source code is available on [GitHub](https://github.com/skttl/umbraco-messenger). MIT licensed; see [third-party notices](THIRD_PARTY_NOTICES.md).
