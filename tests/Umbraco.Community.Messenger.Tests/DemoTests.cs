@@ -38,7 +38,7 @@ public sealed class DemoTests : IDisposable
     {
         var builder = Builder();
         var directory = Directory.CreateDirectory(Path.Combine(_root, "umbraco", "Data"));
-        var path = Path.Combine(directory.FullName, "Messenger18.sqlite.db");
+        var path = Path.Combine(directory.FullName, "Messenger17.sqlite.db");
         File.WriteAllText(path, "existing data");
         Assert.Throws<InvalidOperationException>(() => DevelopmentSettings.Configure(builder));
         Assert.Equal("existing data", File.ReadAllText(path));

@@ -1,6 +1,6 @@
 # Messenger client
 
-Use Node 24.13+ and npm 11+ (the published Umbraco 18 backoffice/UUI peer requirement).
+Use Node 24.13+ and npm 11+ to match the repository CI toolchain.
 
 ```
 npm ci

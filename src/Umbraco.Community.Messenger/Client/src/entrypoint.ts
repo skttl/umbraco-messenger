@@ -4,7 +4,7 @@ import { UMB_AUTH_CONTEXT } from '@umbraco-cms/backoffice/auth';
 import { client } from './api/client.gen';
 import { en,da } from './locales';
 export const onInit:UmbEntryPointOnInit = async(host,registry)=>{
-  await new Promise<void>(resolve=>host.consumeContext(UMB_AUTH_CONTEXT,auth=>{if(auth){auth.configureClient(client);resolve();}}));
+  await new Promise<void>(resolve=>host.consumeContext(UMB_AUTH_CONTEXT,auth=>{if(auth){const config=auth.getOpenApiConfiguration();client.setConfig({baseUrl:config.base,credentials:config.credentials,auth:config.token});resolve();}}));
   const manifests:UmbExtensionManifest[] = [
     {type:'localization',alias:'Messenger.Localization.En',name:'Messenger English',meta:{culture:'en'},js:async()=>({default:en})},
     {type:'localization',alias:'Messenger.Localization.Da',name:'Messenger Danish',meta:{culture:'da'},js:async()=>({default:da})},

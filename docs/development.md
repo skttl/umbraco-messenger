@@ -12,7 +12,7 @@ dotnet restore Umbraco.Community.Messenger.slnx --configfile NuGet.Config
 dotnet test tests/Umbraco.Community.Messenger.Tests --configuration Release --no-restore
 dotnet build demo/Messenger.TestSite --configuration Debug --no-restore
 dotnet pack src/Umbraco.Community.Messenger --configuration Release --no-restore --output artifacts
-python scripts/validate-package.py artifacts/Umbraco.Community.Messenger.18.0.0.nupkg 18.0.0
+python scripts/validate-package.py artifacts/Umbraco.Community.Messenger.17.0.0.nupkg 17.0.0
 ```
 
 The checked-in npm configuration handles the backoffice's peer dependency graph. The generated authenticated TypeScript SDK is committed under the client source; `npm run generate-client` regenerates it from the running local demo's OpenAPI endpoint. Client assets are bundled into static web assets; consuming sites need no npm build.
@@ -32,3 +32,7 @@ If the database exists but the administrator settings are missing, startup fails
 ## Release preparation
 
 CI checks both release branches. A stable `v18.x.y` tag must refer to a commit on main; `v17.x.y` must refer to v17/main. The publishing workflow verifies package identity, version, bounded dependency range and archive contents before GitHub OIDC authentication. Publishing requires separately configured NuGet trusted publishing, a release environment and its `NUGET_USER` secret. None is configured by building this repository.
+
+## Umbraco 17 demo image dependency
+
+The 17 demo pins patched ImageSharp 3.2.0. Its build target permits Debug builds without a license key and reports a warning; a Release build of the demo requires a valid Six Labors license. This dependency belongs to the demo and is not shipped by the Messenger library package.

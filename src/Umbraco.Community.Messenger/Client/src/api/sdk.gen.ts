@@ -24,13 +24,13 @@ export const getMessengerConversations = <ThrowOnError extends boolean = false>(
     ...options
 });
 
-export const postMessengerConversation = <ThrowOnError extends boolean = false>(options: Options<PostMessengerConversationData, ThrowOnError>): RequestResult<PostMessengerConversationResponses, PostMessengerConversationErrors, ThrowOnError> => (options.client ?? client).post<PostMessengerConversationResponses, PostMessengerConversationErrors, ThrowOnError>({
+export const postMessengerConversation = <ThrowOnError extends boolean = false>(options?: Options<PostMessengerConversationData, ThrowOnError>): RequestResult<PostMessengerConversationResponses, PostMessengerConversationErrors, ThrowOnError> => (options?.client ?? client).post<PostMessengerConversationResponses, PostMessengerConversationErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/umbraco/management/api/v1/messenger/conversations',
     ...options,
     headers: {
         'Content-Type': 'application/json',
-        ...options.headers
+        ...options?.headers
     }
 });
 

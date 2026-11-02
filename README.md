@@ -7,7 +7,7 @@ Internal, plain text conversations for Umbraco backoffice users. The header butt
 Use the package major matching your Umbraco major. Package consumers do not need Node.
 
 ```sh
-dotnet add package Umbraco.Community.Messenger --version 18.0.0
+dotnet add package Umbraco.Community.Messenger --version 17.0.0
 ```
 
 `main` builds 18.x for Umbraco 18 (`[18.0.0,19.0.0)`); `v17/main` builds 17.x for Umbraco 17 (`[17.0.0,18.0.0)`). Both target .NET 10. Restart the site to run package migrations, then sign in to the backoffice.

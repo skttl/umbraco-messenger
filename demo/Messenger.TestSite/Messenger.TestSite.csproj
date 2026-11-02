@@ -9,7 +9,8 @@
     <RazorCompileOnPublish>false</RazorCompileOnPublish>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms" Version="18.3.0" />
+    <PackageReference Include="Umbraco.Cms" Version="17.7.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.2.0" />
     <ProjectReference Include="../../src/Umbraco.Community.Messenger/Umbraco.Community.Messenger.csproj" />
   </ItemGroup>
   <ItemGroup>
