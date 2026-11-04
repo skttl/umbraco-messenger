@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Umbraco.Community.Messenger</PackageId>
-    <Version>17.0.0</Version>
+    <Version>17.0.0-rc1</Version>
     <Authors>skttl</Authors>
     <Description>Internal threaded messaging for Umbraco backoffice users.</Description>
     <PackageTags>umbraco;umbraco-marketplace;messenger;messages;editors</PackageTags>
