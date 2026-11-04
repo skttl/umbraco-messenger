@@ -19,8 +19,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ ! "$GITHUB_REF_NAME" =~ ^v(17|18)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
-            echo 'Expected a stable v17.x.y or v18.x.y tag' >&2
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v(17|18)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*)?$ ]]; then
+            echo 'Expected a stable or prerelease v17.x.y or v18.x.y tag' >&2
             exit 1
           fi
           major="${BASH_REMATCH[1]}"

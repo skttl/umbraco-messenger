@@ -8,8 +8,8 @@ import zipfile
 
 
 def validate(path, version):
-    if not re.fullmatch(r"(17|18)\.(0|[1-9]\d*)\.(0|[1-9]\d*)", version):
-        raise ValueError("Expected a stable 17.x.y or 18.x.y version")
+    if not re.fullmatch(r"(17|18)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*)?", version):
+        raise ValueError("Expected a stable or prerelease 17.x.y or 18.x.y version")
     major = int(version.split(".")[0])
     expected_range = f"[{major}.0.0,{major + 1}.0.0)"
     with zipfile.ZipFile(path) as archive:
