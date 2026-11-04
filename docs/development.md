@@ -31,7 +31,7 @@ If the database exists but the administrator settings are missing, startup fails
 
 ## Release preparation
 
-CI checks both release branches. A stable `v18.x.y` tag must refer to a commit on main; `v17.x.y` must refer to v17/main. The publishing workflow verifies package identity, version, bounded dependency range and archive contents before GitHub OIDC authentication. Publishing requires separately configured NuGet trusted publishing, a release environment and its `NUGET_USER` secret. None is configured by building this repository.
+CI checks both release branches. Stable and prerelease tags are supported, for example `v18.0.0` and `v18.0.0-rc1`. A `v18.x.y` tag must refer to a commit on main; `v17.x.y` must refer to v17/main. The project version must match the tag without its `v` prefix. The publishing workflow verifies package identity, version, bounded dependency range and archive contents before GitHub OIDC authentication. Publishing requires separately configured NuGet trusted publishing, a release environment and its `NUGET_USER` secret. None is configured by building this repository.
 
 ## Umbraco 17 demo image dependency
 
