@@ -18,10 +18,13 @@ public sealed class DemoTests : IDisposable
     {
         var builder = Builder();
         var path = Path.Combine(_root, "appsettings.Local.json");
-        const string original = "{\"Custom\":\"keep\"}";
+        const string original = "{\"Custom\":\"keep\",\"ConnectionStrings\":{\"umbracoDbDSN\":\"Data Source=Messenger18.sqlite.db\"}}";
         File.WriteAllText(path, original);
         DevelopmentSettings.Configure(builder);
         Assert.Equal(original, File.ReadAllText(path));
+        Assert.Equal("Data Source=|DataDirectory|/Messenger19.sqlite.db;Cache=Shared;Foreign Keys=True;Pooling=True", builder.Configuration["ConnectionStrings:umbracoDbDSN"]);
+        Assert.Equal("admin@example.com", builder.Configuration["Umbraco:CMS:Unattended:UnattendedUserEmail"]);
+        Assert.Equal("1234567890", builder.Configuration["Umbraco:CMS:Unattended:UnattendedUserPassword"]);
     }
 
     [Fact]
@@ -38,7 +41,7 @@ public sealed class DemoTests : IDisposable
     {
         var builder = Builder();
         var directory = Directory.CreateDirectory(Path.Combine(_root, "umbraco", "Data"));
-        var path = Path.Combine(directory.FullName, "Messenger18.sqlite.db");
+        var path = Path.Combine(directory.FullName, "Messenger19.sqlite.db");
         File.WriteAllText(path, "existing data");
         Assert.Throws<InvalidOperationException>(() => DevelopmentSettings.Configure(builder));
         Assert.Equal("existing data", File.ReadAllText(path));

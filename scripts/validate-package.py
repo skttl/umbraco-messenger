@@ -8,10 +8,11 @@ import zipfile
 
 
 def validate(path, version):
-    if not re.fullmatch(r"(17|18)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*)?", version):
-        raise ValueError("Expected a stable or prerelease 17.x.y or 18.x.y version")
+    if not re.fullmatch(r"(17|18|19)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*)?", version):
+        raise ValueError("Expected a stable or prerelease 17.x.y, 18.x.y or 19.x.y version")
     major = int(version.split(".")[0])
-    expected_range = f"[{major}.0.0,{major + 1}.0.0)"
+    expected_range = f"[{major}.0.0{'-rc1' if major == 19 else ''},{major + 1}.0.0)"
+    framework = 'net11.0' if major == 19 else 'net10.0'
     with zipfile.ZipFile(path) as archive:
         names = archive.namelist()
         if len(names) != len(set(names)):
@@ -26,7 +27,7 @@ def validate(path, version):
         if not dependencies or any("".join(d.get("version", "").split()) != expected_range for d in dependencies):
             raise ValueError(f"Expected bounded Umbraco dependency {expected_range}")
         required = {"README.md", "LICENSE", "THIRD_PARTY_NOTICES.md", "icon.png", "icon.svg",
-                    "lib/net10.0/Umbraco.Community.Messenger.dll",
+                    f"lib/{framework}/Umbraco.Community.Messenger.dll",
                     "staticwebassets/App_Plugins/Messenger/messenger.js",
                     "staticwebassets/App_Plugins/Messenger/umbraco-package.json",
                     "staticwebassets/App_Plugins/Messenger/DEPENDENCY_LICENSES.txt"}
@@ -34,6 +35,11 @@ def validate(path, version):
             raise ValueError(f"Missing files: {sorted(required.difference(names))}")
         allowed_roots = {"_rels", "package", "lib", "staticwebassets", "build", "buildMultiTargeting", "buildTransitive"}
         allowed_files = {specs[0], "[Content_Types].xml", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md", "icon.png", "icon.svg", ".signature.p7s"}
+        sdk_build_files = {"build/Microsoft.AspNetCore.StaticWebAssets.targets",
+                           "build/Umbraco.Community.Messenger.PackageAssets.json",
+                           "build/Umbraco.Community.Messenger.targets",
+                           "buildMultiTargeting/Umbraco.Community.Messenger.targets",
+                           "buildTransitive/Umbraco.Community.Messenger.targets"} if major == 19 else set()
         for name in names:
             parts = pathlib.PurePosixPath(name).parts
             if ".." in parts or name.startswith("/") or (name not in allowed_files and parts[0] not in allowed_roots):
@@ -41,11 +47,11 @@ def validate(path, version):
             lower = name.lower()
             if any(x in lower for x in ("appsettings", ".sqlite", ".db", "demousers", "node_modules", "/client/", "/demo/")):
                 raise ValueError(f"Development data in package: {name}")
-            if parts[0] == "lib" and name not in {"lib/net10.0/Umbraco.Community.Messenger.dll", "lib/net10.0/Umbraco.Community.Messenger.xml"}:
+            if parts[0] == "lib" and name not in {f"lib/{framework}/Umbraco.Community.Messenger.dll", f"lib/{framework}/Umbraco.Community.Messenger.xml"}:
                 raise ValueError(f"Unexpected library payload: {name}")
             if parts[0] == "staticwebassets" and (not name.startswith("staticwebassets/App_Plugins/Messenger/") or pathlib.PurePosixPath(name).suffix not in {".js", ".json", ".txt"}):
                 raise ValueError(f"Unexpected static asset: {name}")
-            if parts[0] in {"build", "buildMultiTargeting", "buildTransitive"} and pathlib.PurePosixPath(name).suffix != ".props":
+            if parts[0] in {"build", "buildMultiTargeting", "buildTransitive"} and pathlib.PurePosixPath(name).suffix != ".props" and name not in sdk_build_files:
                 raise ValueError(f"Unexpected build payload: {name}")
         manifest = json.loads(archive.read("staticwebassets/App_Plugins/Messenger/umbraco-package.json"))
         if not manifest.get("extensions"):

@@ -2,6 +2,24 @@
 
 This is a local implementation, not a published release. No GitHub remote, NuGet trust policy or production deployment has been configured.
 
+## Umbraco 19 RC, 2026-11-12
+
+The previous main commit, a1721158f6c7591dea2f8fcc40d06b9c3890bbf5, is preserved on local and remote v18/main. The v19 upgrade is prepared for main and the v19.0.0-rc1 release tag.
+
+- Server and demo use Umbraco 19.0.0-rc1 and net11.0. The package bounds Umbraco to [19.0.0-rc1,20.0.0). OpenAPI uses 3.11.0; obsolete .NET 10 cryptography pins were removed.
+- Backoffice client uses 19.0.0-rc1 and UUI 2.2.0. API requests retain Umbraco's configureClient integration, which includes session cookies. SignalR uses withCredentials without accessTokenFactory.
+- Development startup overrides the connection string in memory to Messenger19.sqlite.db, including when existing local settings contain a v18 connection string. Saved settings are preserved. The user verified the running demo and Messenger on v19. The v19 database was recreated at the user’s request, then the test site was stopped for release preparation. The agreed fixed unattended admin login is applied only in Development; generated local settings remain untouched.
+- 29 server tests pass on .NET SDK 11.0.100-rc.3.26522.148. ExistingAdminSettingsAreNeverOverwritten also verifies the v19 connection string override.
+- 42 client tests pass with Node 24.13.0 and npm 11.6.2. The regression test connects with session cookies without token APIs failed on the old token implementation and passes after removal. TypeScript and Vite build pass.
+- 10 archive validator tests pass, including supported majors, the .NET 11 static asset build files and rejection of unexpected build files. The actual 19.0.0-rc1 NuGet archive validates with 23 entries. .NET 11 emits static asset .targets and PackageAssets.json instead of the previous .props-only layout.
+- Debug demo build passes without warnings. Actionlint 1.7.7 accepts both workflows. CI and publish routing include main for v19, v18/main and v17/main. The archived v18 branch retains its original workflows and has not received maintenance changes.
+
+The final archive also restores and builds in a separate net11.0 web app using PackageReference only, with CompressionEnabled=false as in the demo. Its static web asset manifest discovers 8 Messenger assets. With default compression enabled, both that app and a clean Umbraco 19.0.0-rc1 app without Messenger fail in ApplyCompressionNegotiation on Umbraco's app-auth-callback.element.js. This reproduces independently of Messenger with this SDK/RC combination.
+
+The user confirmed the running demo works. Not independently checked: browser login, live SignalR delivery, runtime installation into a separate consuming application, real database upgrades and remote GitHub Actions. No NuGet package was published. Historical verification below applies to its stated versions.
+
+Sources: [Umbraco 19 RC](https://umbraco.com/blog/umbraco-19-release-candidate/) and [v19 breaking changes](https://docs.umbraco.com/umbraco-cms/19.latest/get-started/upgrading-and-migrating/version-specific). Messenger has no Examine search, property editor, variant, or content-publishing integration requiring migration.
+
 ## Umbraco 18
 
 - Library compiled against Umbraco.Cms.Api.Management 18.0.0; demo runs Umbraco 18.3.0 on .NET 10.

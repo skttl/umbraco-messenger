@@ -1,6 +1,6 @@
 {
   "name": "umbraco-community-messenger",
-  "version": "18.0.0",
+  "version": "19.0.0-rc1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,8 +11,8 @@
   "devDependencies": {
     "@hey-api/openapi-ts": "0.99.0",
     "@microsoft/signalr": "^10.0.0",
-    "@umbraco-cms/backoffice": "18.0.0",
-    "@umbraco-ui/uui": "^2.0.0",
+    "@umbraco-cms/backoffice": "19.0.0-rc1",
+    "@umbraco-ui/uui": "^2.2.0",
     "jsdom": "^27.4.0",
     "lit": "^3.3.1",
     "rxjs": "^7.8.2",

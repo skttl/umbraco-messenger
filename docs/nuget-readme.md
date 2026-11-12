@@ -2,7 +2,7 @@
 
 Plain text threaded conversations inside the backoffice, with the standard Umbraco sidebar, unread state, mute, participant invitations, online presence and typing indicators. English, Danish, German, Dutch, French, Italian, Spanish, Swedish and Norwegian Bokmål UI.
 
-Use the package major matching Umbraco: 18.x for Umbraco 18, 17.x for Umbraco 17. Both require .NET 10. Restart after installation to run migrations. Node is not required by consuming sites.
+Use the package major matching Umbraco: 19.x prereleases for Umbraco 19 RC on .NET 11, 18.x for Umbraco 18 and 17.x for Umbraco 17 on .NET 10. Restart after installation to run migrations. Node is not required by consuming sites.
 
 Groups expand to enabled users at send/invite time. Invitations default to future messages; optional history sharing cannot exceed the inviter's own accessible history. Leaving retains prior accessible messages and stops future access. Rejoining preserves hidden gaps unless explicitly shared.
 

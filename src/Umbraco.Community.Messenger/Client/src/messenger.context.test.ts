@@ -12,7 +12,7 @@ const message=(sequence:number)=>({id:String(sequence),sequence,senderId:'other'
 const deferred=<T>()=>{let resolve!:(v:T)=>void;const promise=new Promise<T>(r=>resolve=r);return {promise,resolve};};
 let context:MessengerContext;
 const settle=async()=>{for(let n=0;n<10;n++)await Promise.resolve();};
-beforeEach(()=>{vi.useFakeTimers();vi.clearAllMocks();mocks.hub.start.mockResolvedValue(undefined);mocks.hub.stop.mockResolvedValue(undefined);mocks.hub.invoke.mockResolvedValue([]); const doc=new EventTarget();Object.assign(doc,{visibilityState:'visible',hasFocus:()=>true});vi.stubGlobal('document',doc);vi.stubGlobal('window',new EventTarget());mocks.api.getMessengerConversations.mockResolvedValue({data:{items:[],unreadConversationCount:0}});mocks.api.getMessengerConversation.mockImplementation(async({path})=>({data:thread(path.id)}));mocks.api.getMessengerMessages.mockResolvedValue({data:{items:[message(2)],nextBeforeSequence:null}});context=new MessengerContext({} as never);mocks.authConsumer!({isAuthorized:{value:true},getOpenApiConfiguration:()=>({base:'http://localhost'}),getLatestToken:async()=>'',configureClient(){}});});
+beforeEach(()=>{vi.useFakeTimers();vi.clearAllMocks();mocks.hub.start.mockResolvedValue(undefined);mocks.hub.stop.mockResolvedValue(undefined);mocks.hub.invoke.mockResolvedValue([]); const doc=new EventTarget();Object.assign(doc,{visibilityState:'visible',hasFocus:()=>true});vi.stubGlobal('document',doc);vi.stubGlobal('window',new EventTarget());mocks.api.getMessengerConversations.mockResolvedValue({data:{items:[],unreadConversationCount:0}});mocks.api.getMessengerConversation.mockImplementation(async({path})=>({data:thread(path.id)}));mocks.api.getMessengerMessages.mockResolvedValue({data:{items:[message(2)],nextBeforeSequence:null}});context=new MessengerContext({} as never);mocks.authConsumer!({isAuthorized:{value:true},getOpenApiConfiguration:()=>({base:'http://localhost'}),configureClient(){}});});
 afterEach(()=>{context.destroy();vi.useRealTimers();vi.unstubAllGlobals();});
 describe('Messenger state',()=>{
  it.each([100000,100001])('validates a reply of %s characters before calling the API',async(length)=>{
@@ -56,10 +56,9 @@ describe('live lifecycle',()=>{
    await settle();expect(context.snapshot.live).toBe('offline');await vi.advanceTimersByTimeAsync(5000);expect(context.snapshot.live).toBe('connected');
    mocks.authConsumer!({isAuthorized:{value:false}});const count=mocks.hub.start.mock.calls.length;await vi.advanceTimersByTimeAsync(30000);expect(mocks.hub.start).toHaveBeenCalledTimes(count);expect(mocks.hub.stop).toHaveBeenCalled();
  });
- it('does not use a captured token for reconnects',async()=>{
-   const getLatestToken=vi.fn().mockResolvedValueOnce('first').mockResolvedValueOnce('second');
-   mocks.authConsumer!({isAuthorized:{value:true},getOpenApiConfiguration:()=>({base:'http://localhost'}),getLatestToken,configureClient(){}});
-   expect(await mocks.hubOptions.accessTokenFactory()).toBe('first');expect(await mocks.hubOptions.accessTokenFactory()).toBe('second');expect(mocks.hubOptions.withCredentials).toBe(true);
+ it('connects with session cookies without token APIs',async()=>{
+   mocks.authConsumer!({isAuthorized:{value:true},getOpenApiConfiguration:()=>({base:'http://localhost'}),configureClient(){}});
+   expect(mocks.hubOptions).toEqual({withCredentials:true});
  });
 });
 

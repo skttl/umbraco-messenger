@@ -42,7 +42,7 @@ Expected errors return ProblemDetails with `status`, `title` and extension `code
 
 ## SignalR
 
-Route `/umbraco/messengerHub`, own authenticated hub. Connect with Umbraco auth context accessTokenFactory and credentials. No client-controlled subscriptions. On reconnect reload conversations and the open conversation.
+Route `/umbraco/messengerHub`, own authenticated hub. Connect with the backoffice session cookie and `withCredentials: true`. No client-controlled subscriptions. On reconnect reload conversations and the open conversation.
 
 Client methods:
 

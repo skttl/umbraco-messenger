@@ -13,7 +13,7 @@ internal static class DevelopmentSettings
         var path = Path.Combine(builder.Environment.ContentRootPath, "appsettings.Local.json");
         if (!File.Exists(path))
         {
-            var database = Path.Combine(builder.Environment.ContentRootPath, "umbraco", "Data", "Messenger18.sqlite.db");
+            var database = Path.Combine(builder.Environment.ContentRootPath, "umbraco", "Data", "Messenger19.sqlite.db");
             if (File.Exists(database))
                 throw new InvalidOperationException("The demo database exists but appsettings.Local.json is missing. Restore your local settings or reset the admin password using Umbraco's supported recovery process.");
 
@@ -46,5 +46,12 @@ internal static class DevelopmentSettings
             }
         }
         builder.Configuration.AddJsonFile(path, optional: false, reloadOnChange: false);
+        builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            ["ConnectionStrings:umbracoDbDSN"] = "Data Source=|DataDirectory|/Messenger19.sqlite.db;Cache=Shared;Foreign Keys=True;Pooling=True",
+            ["ConnectionStrings:umbracoDbDSN_ProviderName"] = "Microsoft.Data.Sqlite",
+            ["Umbraco:CMS:Unattended:UnattendedUserEmail"] = "admin@example.com",
+            ["Umbraco:CMS:Unattended:UnattendedUserPassword"] = "1234567890"
+        });
     }
 }

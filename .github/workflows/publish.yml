@@ -1,7 +1,7 @@
 name: Publish to NuGet
 on:
   push:
-    tags: ['v17.*', 'v18.*']
+    tags: ['v17.*', 'v18.*', 'v19.*']
 permissions:
   contents: read
 jobs:
@@ -19,13 +19,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ ! "$GITHUB_REF_NAME" =~ ^v(17|18)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*)?$ ]]; then
-            echo 'Expected a stable or prerelease v17.x.y or v18.x.y tag' >&2
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v(17|18|19)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*)?$ ]]; then
+            echo 'Expected a stable or prerelease v17.x.y, v18.x.y or v19.x.y tag' >&2
             exit 1
           fi
           major="${BASH_REMATCH[1]}"
           branch=main
-          if [[ "$major" == 17 ]]; then branch=v17/main; fi
+          if [[ "$major" != 19 ]]; then branch="v$major/main"; fi
           git merge-base --is-ancestor "$GITHUB_SHA" "refs/remotes/origin/$branch"
           echo "PACKAGE_VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
       - uses: actions/setup-node@v4
@@ -41,7 +41,10 @@ jobs:
           npm run build
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: |
+            10.0.x
+            11.0.x
+          dotnet-quality: preview
       - name: Validate source version, test and pack
         shell: bash
         run: |

@@ -72,7 +72,7 @@ export class MessengerContext extends UmbContextBase {
     const epoch=this.#epoch,auth=this.#auth;
     this.#set({live:'connecting'});
     const base=(auth.getOpenApiConfiguration().base??window.location.origin).replace(/\/$/,'');
-    const connection=new HubConnectionBuilder().withUrl(`${base}/umbraco/messengerHub`,{accessTokenFactory:()=>auth.getLatestToken(),withCredentials:true}).withAutomaticReconnect().build();
+    const connection=new HubConnectionBuilder().withUrl(`${base}/umbraco/messengerHub`,{withCredentials:true}).withAutomaticReconnect().build();
     this.#connection=connection;
     const current=()=>this.#valid(epoch)&&this.#connection===connection;
     connection.on('ConversationChanged',(id:string)=>{if(!current())return;void this.refresh();if(this.snapshot.open && this.snapshot.selected===id)void this.loadDetail();});

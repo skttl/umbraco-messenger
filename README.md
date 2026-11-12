@@ -15,10 +15,10 @@ See the [illustrated guide](docs/using-messenger.md#screenshots) for the convers
 Use the package major matching your Umbraco major. Package consumers do not need Node.
 
 ```sh
-dotnet add package Umbraco.Community.Messenger --version 18.0.0
+dotnet add package Umbraco.Community.Messenger --version 19.0.0-rc1
 ```
 
-`main` builds 18.x for Umbraco 18 (`[18.0.0,19.0.0)`); `v17/main` builds 17.x for Umbraco 17 (`[17.0.0,18.0.0)`). Both target .NET 10. Restart the site to run package migrations, then sign in to the backoffice.
+`main` builds 19.x for Umbraco 19 RC (`[19.0.0-rc1,20.0.0)`) on .NET 11. `v18/main` builds 18.x for Umbraco 18 (`[18.0.0,19.0.0)`), and `v17/main` builds 17.x for Umbraco 17 (`[17.0.0,18.0.0)`) on .NET 10. Restart the site to run package migrations, then sign in to the backoffice.
 
 See [using Messenger](docs/using-messenger.md), [local development and demo](docs/development.md) and the [API contract](docs/api-contract.md).
 
